@@ -4,7 +4,7 @@ import logo from '../assets/logo.jpg';
 import HeroPage from '../components/HeroPage .jsx';
 import Card from '../components/Card.jsx'; 
 import cardsData from '../data/cardsData.js';
-import Achievers from '../components/Achievers.jsx';
+
 
 
 export default function Home() {
@@ -49,7 +49,7 @@ export default function Home() {
     />
   ))}
 </div>
-<Achievers/>
+
 
   </div>
   )
