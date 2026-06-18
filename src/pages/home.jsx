@@ -4,9 +4,9 @@ import logo from '../assets/logo.jpg';
 import HeroPage from '../components/HeroPage .jsx';
 import Card from '../components/Card.jsx'; 
 import cardsData from '../data/cardsData.js';
-
-
-
+import Achievers from '../components/Achivers.jsx';
+import Footer from '../components/Footer.jsx';
+import App from '../components/APP.jsx';
 export default function Home() {
   const links = [
     { label: "Home", href: "#home" },
@@ -49,7 +49,8 @@ export default function Home() {
     />
   ))}
 </div>
-
+<Achievers/>
+<App/>
 
   </div>
   )
