@@ -1,39 +1,22 @@
+import {
+  FaGithub,
+  FaLinkedin,
+  FaYoutube,
+  FaDiscord,
+  FaTelegram,
+  FaPhone,
+  FaTiktok,
+} from "react-icons/fa";
 
+import  {footerLinks}  from "../data/footerdata.js";
+import logo from '../assets/logo.jpg';
 
 const Footer = () => {
   return (
     <footer className="relative bg-[#020617] overflow-hidden text-white">
 
-      {/* Background Text */}
-      <div
-  className="
-    absolute
-    inset-0
-    flex
-    items-center
-    justify-center
-    pointer-events-none
-    select-none
-    overflow-hidden
-  "
->
-  <h1
-    className="
-      text-[120px]
-      md:text-[220px]
-      lg:text-[280px]
-      font-black
-      uppercase
-      tracking-wider
-      opacity-10
-      blur-[2px]
-      whitespace-nowrap
-    "
-  >
-      <span className="text-white">CODE </span>
-  <span className="text-[#e78c16]">HUB</span>
-  </h1>
-</div>
+      
+   
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-24">
 
@@ -42,11 +25,11 @@ const Footer = () => {
           {/* Company */}
           <div>
             <h3 className="font-bold text-lg mb-5">
-              Company
+              Our school
             </h3>
 
             <ul className="space-y-3 text-slate-400">
-              {footerLinks.company.map((item) => (
+              {footerLinks.school.map((item) => (
                 <li
                   key={item}
                   className="hover:text-white cursor-pointer transition"
@@ -60,11 +43,11 @@ const Footer = () => {
           {/* Courses */}
           <div>
             <h3 className="font-bold text-lg mb-5">
-              Courses
+              About
             </h3>
 
             <ul className="space-y-3 text-slate-400">
-              {footerLinks.courses.map((item) => (
+              {footerLinks.about.map((item) => (
                 <li
                   key={item}
                   className="hover:text-white cursor-pointer transition"
@@ -78,11 +61,11 @@ const Footer = () => {
           {/* Interview Prep */}
           <div>
             <h3 className="font-bold text-lg mb-5">
-              Interview Prep
+          Academics
             </h3>
 
             <ul className="space-y-3 text-slate-400">
-              {footerLinks.interviewPrep.map((item) => (
+              {footerLinks.academics.map((item) => (
                 <li
                   key={item}
                   className="hover:text-white cursor-pointer transition"
@@ -139,17 +122,18 @@ const Footer = () => {
 
           <div>
             <h2 className="text-2xl font-bold">
-              Code<span className="text-[#e78c16]"> Hub</span>
+              Beza<span className="text-[#10b981]"> BezaBarok</span>
             </h2>
+            <img src={logo} class="h-[50px] w-[50px] ml-5 transition-transform duration-300 hover:scale-105"></img>
 
             <p className="text-slate-400 mt-2">
-              Learn. Build. Get Hired.
+              Build your future here.
             </p>
           </div>
 
           <div className="flex items-center gap-5">
 
-            <FaGithub 
+            <FaTelegram 
               size={22}
               className="cursor-pointer hover:scale-110 transition"
             />
@@ -159,12 +143,12 @@ const Footer = () => {
               className="cursor-pointer hover:scale-110 transition"
             />
 
-            <FaYoutube
+            <FaPhone
               size={22}
               className="cursor-pointer hover:scale-110 transition"
             />
 
-            <FaDiscord
+            <FaTiktok
               size={22}
               className="cursor-pointer hover:scale-110 transition"
             />
@@ -174,7 +158,7 @@ const Footer = () => {
         </div>
 
         <div className="text-center text-slate-500 mt-12">
-          © 2026 Code Hub. All rights reserved.
+          © 2026 Beza. All rights reserved.
         </div>
 
       </div>

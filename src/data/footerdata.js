@@ -1,42 +1,42 @@
 export const footerLinks = {
-  company: [
+  school: [
     "About Us",
+    "Admissions",
+    "Academics",
+    "Contact Us",
     "Careers",
-    "Contact",
-    "Blog",
-    "Partners",
   ],
 
-  courses: [
-    "Frontend Development",
-    "Backend Development",
-    "Full Stack Development",
-    "Data Structures & Algorithms",
-    "Python Programming",
+  about: [
+    "School History",
+    "Mission & Vision",
+    "Principal's Message",
+    "Campus Tour",
+    "Why Choose Us",
   ],
 
-  interviewPrep: [
-    "DSA Roadmap",
-    "Mock Interviews",
-    "Coding Challenges",
-    "Behavioral Questions",
-    "Resume Review",
+  academics: [
+    "Kindergarten",
+    "Primary School",
+    "Secondary School",
+    "Curriculum",
+    "Student Life",
   ],
 
   resources: [
-    "Learning Paths",
-    "Cheat Sheets",
-    "Documentation",
-    "Projects",
-    "Community Notes",
+    "School Calendar",
+    "News & Updates",
+    "Parent Portal",
+    "Library",
+    "Downloads",
   ],
 
   community: [
-    "Discord",
     "Events",
-    "Mentorship",
-    "Leaderboard",
-    "Success Stories",
+    "Student Achievements",
+    "Alumni Network",
+    "Parent Association",
+    "Community Outreach",
   ],
 };
 
