@@ -1,16 +1,16 @@
-
-import Navbar from './components/navbar.jsx';
-import Home from './pages/home.jsx';
+import { Link, Outlet } from "react-router-dom";
 
 function App() {
-  
-
   return (
     <div>
-    
-      <Home/>
+      <nav className="flex gap-4 ">
+        <Link to="/"></Link>
+        <Link to="/about"></Link>
+      </nav>
+
+      <Outlet />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,5 +1,5 @@
 import React from 'react';
-import Navbar from '../components/navbar';
+import Navbar from '../components/navbar.jsx';
 import logo from '../assets/logo.jpg';
 import HeroPage from '../components/HeroPage .jsx';
 import Card from '../components/Card.jsx'; 
