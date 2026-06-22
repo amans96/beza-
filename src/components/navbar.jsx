@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../data/navbar.js';
 import { ChevronDown } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Navbar({ logo, links = [], actions = [] }) {
   const [scrolled, setScrolled] = useState(false);
