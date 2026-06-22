@@ -5,7 +5,7 @@ function App() {
     <div>
       <nav className="flex gap-4 ">
         <Link to="/"></Link>
-        <Link to="/about"></Link>
+        <Link to="/About"></Link>
       </nav>
 
       <Outlet />
