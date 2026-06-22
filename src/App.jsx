@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link, Outlet } from "react-router-dom";
 
 function App() {
@@ -5,7 +6,6 @@ function App() {
     <div>
       <nav className="flex gap-4">
         <Link to="/"></Link>
-        <Link to="/about"></Link>
       </nav>
 
       <Outlet />

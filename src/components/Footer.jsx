@@ -124,7 +124,7 @@ const Footer = () => {
             <h2 className="text-2xl font-bold">
               Beza<span className="text-[#10b981]"> BezaBarok</span>
             </h2>
-            <img src={logo} class="h-[50px] w-[50px] ml-5 transition-transform duration-300 hover:scale-105"></img>
+            <img src={logo} className="h-[50px] w-[50px] ml-5 transition-transform duration-300 hover:scale-105"></img>
 
             <p className="text-slate-400 mt-2">
               Build your future here.
