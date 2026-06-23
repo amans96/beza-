@@ -23,16 +23,18 @@ export default function Navbar({ logo, links = [], actions = [] }) {
           : "bg-[#22173f]"
       }`}
     >
-      {/* Logo */}
+      {/* LOGO */}
       <div className="flex items-center">
-        <img
-          src={logo}
-          alt="Logo"
-          className="h-[50px] w-[50px] ml-5 transition-transform duration-300 hover:scale-105"
-        />
+        {logo && (
+          <img
+            src={logo}
+            alt="Logo"
+            className="h-[50px] w-[50px] ml-5 transition-transform duration-300 hover:scale-105"
+          />
+        )}
       </div>
 
-      {/* Links */}
+      {/* LINKS */}
       <div className="flex-1">
         <ul className="flex items-center justify-center gap-6 mt-2">
           {links.map((link) => (
@@ -40,90 +42,46 @@ export default function Navbar({ logo, links = [], actions = [] }) {
               key={link.label}
               className={`relative ${link.children ? "group" : ""}`}
             >
-              {link.children ? (
-                <button
-                  className="
-                    flex items-center gap-1
-                    text-white text-lg font-sans pb-1
-                    transition-colors duration-300
-                    hover:text-[#10b981]
-                  "
-                >
-                  {link.label}
-
-                  <ChevronDown
-                    size={18}
-                    className="
-                      transition-transform
-                      duration-300
-                      group-hover:rotate-180
-                    "
-                  />
-                </button>
-              ) : (
+              {/* SIMPLE LINK (NO DROPDOWN) */}
+              {!link.children ? (
                 <Link
                   to={link.path}
-                  className="
-                    flex items-center gap-1
-                    text-white text-lg font-sans pb-1
-                    transition-colors duration-300
-                    hover:text-[#10b981]
-                  "
+                  className="text-white text-lg font-sans pb-1 hover:text-[#10b981] transition"
                 >
                   {link.label}
                 </Link>
-              )}
+              ) : (
+                /* DROPDOWN PARENT */
+                <>
+                  <button className="flex items-center gap-1 text-white text-lg font-sans pb-1 hover:text-[#10b981] transition">
+                    {link.label}
+                    <ChevronDown
+                      size={18}
+                      className="transition-transform duration-300 group-hover:rotate-180"
+                    />
+                  </button>
 
-              {link.children && (
-                <div
-                  className="
-                    absolute top-full left-1/2 -translate-x-1/2 mt-3
-                    min-w-[240px]
-                    bg-[#22173f]/95
-                    backdrop-blur-md
-                    rounded-xl
-                    border border-white/10
-                    shadow-2xl
-
-                    opacity-0
-                    invisible
-                    translate-y-2
-
-                    group-hover:opacity-100
-                    group-hover:visible
-                    group-hover:translate-y-0
-
-                    transition-all
-                    duration-300
-                    overflow-hidden
-                  "
-                >
-                  {link.children.map((course) => (
-                    <Link
-                      key={course.label}
-                      to={course.path}
-                      className="
-                        block
-                        px-5 py-3
-                        text-white
-                        transition-all
-                        duration-300
-                        hover:bg-white/10
-                        hover:text-[#10b981]
-                      "
-                    >
-                      {course.label}
-                    </Link>
-                  ))}
-                </div>
+                  {/* DROPDOWN MENU */}
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 min-w-[240px] bg-[#22173f]/95 backdrop-blur-md rounded-xl border border-white/10 shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 translate-y-2 transition-all overflow-hidden">
+                    {link.children.map((child) => (
+                      <Link
+                        key={child.label}
+                        to={child.path}
+                        className="block px-5 py-3 text-white hover:bg-white/10 hover:text-[#10b981] transition"
+                      >
+                        {child.label}
+                      </Link>
+                    ))}
+                  </div>
+                </>
               )}
             </li>
           ))}
         </ul>
       </div>
 
-      {/* Actions */}
-      <div className="flex items-center justify-center gap-2.5">
+      {/* ACTION BUTTONS */}
+      <div className="flex items-center gap-2.5">
         {actions.map((action) => (
           <button
             key={action.label}

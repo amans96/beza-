@@ -1,13 +1,12 @@
 import React from 'react';
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import Navbar from './components/navbar';
+import navbarLinks from './data/navbar';
 
 function App() {
   return (
     <div>
-      <nav className="flex gap-4">
-        <Link to="/"></Link>
-      </nav>
-
+      <Navbar links={navbarLinks} />
       <Outlet />
     </div>
   );
