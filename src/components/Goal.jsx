@@ -63,7 +63,7 @@ const Goal = () => {
                className="group bg-white p-8 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 relative overflow-hidden"
               >
                 {/* Corner decoration */}
-                <div className="absolute top-0 right-0 w-0 h-0 border-solid border-[30px] border-transparent border-r-orange-600 border-t-orange-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+               <div className="absolute top-0 right-0 w-0 h-0 border-solid border-[30px] border-transparent bg-gradient-to-r from-lime-600 to-lime-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 
                 <div className="flex items-start gap-6">
                   <span className="text-3xl md:text-4xl font-bold text-orange-600 min-w-[60px] font-serif">

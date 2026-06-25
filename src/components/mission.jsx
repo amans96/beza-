@@ -1,28 +1,28 @@
-// components/Mission.jsx
+
 import React from 'react';
-import { FaRocket, FaLightbulb, FaHands, FaStar } from 'react-icons/fa';
+import { FaGraduationCap , FaBookOpen , FaLightbulb , FaUsers, FaHandsHelping  } from 'react-icons/fa';
 import playing  from '../assets/playing2.jpg';
 import studying  from '../assets/stdying.jpg';
 import playing2 from '../assets/playing.jpg'
 
  export default function Mission ()  {
   const missions = [
-    {
-      icon: <FaRocket />,
-      text: "To provide innovative solutions that transform businesses and drive growth."
-    },
-    {
-      icon: <FaLightbulb />,
-      text: "To create value through creative thinking and cutting-edge technology."
-    },
-    {
-      icon: <FaHands />,
-      text: "To build lasting partnerships with our clients based on trust and excellence."
-    },
-    {
-      icon: <FaStar />,
-      text: "To deliver exceptional results that exceed expectations every time."
-    }
+  {
+  icon: <FaGraduationCap />,
+  text: "To provide accessible, quality education that prepares every student for college, career, and life."
+},
+{
+  icon: <FaUsers />,
+  text: "To create a safe, inclusive learning environment where all students feel valued and supported."
+},
+{
+  icon: <FaBookOpen />,
+  text: "To develop critical thinking, creativity, and a lifelong love for learning in every student."
+},
+{
+  icon: <FaHandsHelping />,
+  text: "To partner with families and the community to build a brighter future for our students."
+}
   ];
 
   return (
@@ -39,7 +39,7 @@ import playing2 from '../assets/playing.jpg'
                 className="bg-white p-8 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 relative overflow-hidden group"
               >
                 {/* Top border gradient on hover */}
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-600 to-yellow-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-600 to-green-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
                 
                 <div className="text-4xl text-orange-600 mb-4">
                   {mission.icon}
