@@ -4,6 +4,7 @@ import Navbar from "../components/navbar.jsx"
 import PrincipalMessage from "../components/PrincipalMessage.jsx"
 import Mission from "../components/mission.jsx";
 import Goal from "../components/Goal.jsx";
+import StaffPage from "../components/StaffPage .jsx";
 export default function About(){
     return(
         <div>
@@ -12,6 +13,7 @@ export default function About(){
 <PrincipalMessage/>
 <Mission/>
 <Goal/>
+<StaffPage/>
         </div>
     )
 }
