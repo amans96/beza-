@@ -5,14 +5,18 @@ import PrincipalMessage from "../components/PrincipalMessage.jsx"
 import Mission from "../components/mission.jsx";
 import Goal from "../components/Goal.jsx";
 import StaffPage from "../components/StaffPage .jsx";
+import navbarLinks from '../data/navbar.js';
+import Footer from '../components/Footer.jsx';
 export default function About(){
     return(
         <div>
-<Navbar/>
+  <Navbar links={navbarLinks} />
 <AboutHero/>
 <PrincipalMessage/>
 <Mission/>
 <Goal/>
+<StaffPage/>
+<Footer/>
 
         </div>
     )
