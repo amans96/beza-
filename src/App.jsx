@@ -6,7 +6,7 @@ import navbarLinks from './data/navbar';
 function App() {
   return (
     <div>
-    
+      
       <Outlet />
     </div>
   );

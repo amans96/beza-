@@ -18,9 +18,9 @@ const Footer = () => {
       
    
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-24">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 py-6 md:py-4">
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
 
           {/* Company */}
           <div>
