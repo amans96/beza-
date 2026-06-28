@@ -1,12 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
+import image1 from '../assets/image8.jpg'
+import image2 from '../assets/image11.jpg'
+import image3 from '../assets/imges3.jpg'
 
 const Explore = () => {
   const [activeTab, setActiveTab] = useState('learning');
 
   const imageMap = {
-    learning: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&h=400&fit=crop&crop=center&auto=format',
-    alumni: 'https://images.unsplash.com/photo-1523050854058-8df90110c7f1?w=600&h=400&fit=crop&crop=center&auto=format',
-    activities: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&h=400&fit=crop&crop=center&auto=format'
+    learning: image1,
+    alumni: image2,
+    activities:image3
   };
 
   const contentMap = {

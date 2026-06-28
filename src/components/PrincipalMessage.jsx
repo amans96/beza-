@@ -7,9 +7,7 @@ export default function PrincipalMessage() {
       
       {/* Header */}
       <div className="mb-16 text-center">
-        <span className="rounded-full bg-[#10b883]/10 px-4 py-2 text-sm font-semibold text-[#10b883]">
-          Welcome
-        </span>
+       
 
         <h2 className="mt-5 text-4xl font-bold text-gray-900 md:text-5xl">
           Welcome to Beza School

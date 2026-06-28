@@ -19,12 +19,7 @@ export default function AboutHero() {
 
       {/* Content */}
       <div className="relative z-10 flex h-full items-center">
-  <div className="px-6 lg:px-20">
-   <h1 className="text-5xl font-extrabold uppercase tracking-wider text-[white] md:text-7xl">
-  About Us
-</h1>
-    
-  </div>
+  
 </div>
     </section>
   );

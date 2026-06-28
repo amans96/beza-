@@ -84,7 +84,7 @@ import cardsDatas from '../data/cardsData.js'
       </p>
       
       {/* Animated underline on hover */}
-      <div className="absolute bottom-0 left-1/2 h-1 w-0 bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-300 group-hover:left-0 group-hover:w-full"></div>
+<div className="absolute bottom-0 left-1/2 h-1 w-0 bg-gradient-to-r from-emerald-500 to-green-500 transition-all duration-300 group-hover:left-0 group-hover:w-full"></div>
       
       {/* Floating particles effect (optional) */}
       <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-gradient-to-br from-blue-400/20 to-purple-400/20 blur-2xl transition-all duration-700 group-hover:scale-150"></div>
