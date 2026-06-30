@@ -103,17 +103,7 @@ export default function Timeline() {
       </div>
 
       {/* ================= NAVIGATION ================= */}
-      <div className="flex flex-wrap justify-center gap-4 mt-6">
-        {["Graduation", "Admission", "Events", "Gallery"].map((item) => (
-          <a
-            key={item}
-            href={`#${item.toLowerCase()}`}
-            className="px-6 py-2 bg-emerald-500 text-white rounded-full shadow-md transition hover:scale-105 hover:bg-emerald-600"
-          >
-            {item}
-          </a>
-        ))}
-      </div>
+     
 
       {/* ================= MAIN LAYOUT ================= */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 px-6 mt-10">
@@ -131,9 +121,8 @@ export default function Timeline() {
               <div
                 key={year}
                 onClick={() => handleYearClick(year)}
-                className={`relative z-10 flex items-center mb-10 cursor-pointer ${
-                  !hasPhotosForYear ? "opacity-50" : ""
-                }`}
+                className="relative z-10 flex items-center mb-10 cursor-pointer" 
+                
               >
                 <div
                   className={`w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 ${
@@ -150,11 +139,7 @@ export default function Timeline() {
                     </span>
                   )}
                 </div>
-                {hasPhotosForYear && (
-                  <div className="ml-4 text-sm text-gray-500">
-                    ({photos.filter(p => p.year === year).length} photos)
-                  </div>
-                )}
+               
               </div>
             );
           })}
@@ -181,14 +166,7 @@ export default function Timeline() {
                       {item.disc}
                     </p>
                     <div className="flex flex-wrap gap-1 mt-2 opacity-0 group-hover:opacity-100 transition duration-300">
-                      {item.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-2 py-1 bg-emerald-500 text-white text-xs rounded-full"
-                        >
-                          {tag}
-                        </span>
-                      ))}
+                    
                     </div>
                   </div>
                 </div>

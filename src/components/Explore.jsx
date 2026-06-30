@@ -31,7 +31,7 @@ const Explore = () => {
     
     <div className="min-h-screen bg-[#f4f7fb] flex-col items-center justify-center p-4 sm:p-6 md:p-8">
                  <h1 className="text-3xl md:text-5xl font-serif font-semibold text-[#0B2B44] tracking-tight mb-8 text-center">
-  Explore ICS
+  Explore BezBarok
 </h1>
   <div className="w-full flex justify-center">
       <div className="max-w-[1300px] w-full bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-[0_20px_40px_-12px_rgba(0,20,30,0.2)] p-5 sm:p-6 md:p-8 lg:p-10 transition-all">
