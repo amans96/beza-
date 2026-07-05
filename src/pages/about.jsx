@@ -8,6 +8,7 @@ import StaffPage from "../components/StaffPage .jsx";
 import navbarLinks from '../data/navbar.js';
 import Footer from '../components/Footer.jsx';
 import Explore from '../components/Explore.jsx'
+import Club from '../components/Club.jsx'
 export default function About(){
     return(
         <div>
@@ -19,6 +20,7 @@ export default function About(){
 <StaffPage/>
 <Explore/>
 <Footer/>
+
 
         </div>
     )

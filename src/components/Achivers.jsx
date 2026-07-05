@@ -1,119 +1,25 @@
-import React, { useState, useRef, useEffect } from 'react';
-import logo from '../assets/logo.jpg';
-import stud1 from '../assets/stud1.jpg';
-import stud2 from '../assets/stud2.jpg';
-import stud3 from '../assets/stud3.webp';
-import stud4 from '../assets/stud4.jpg';
+import React, { useState, useRef, useEffect,useMemo } from 'react';
+import {
+  FaAngleLeft,
+  FaAngleRight,
+  FaTimes,
 
+} from 'react-icons/fa';
+import {achievers} from '../data/achieversData';
 export default function Achievers() {
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollContainerRef = useRef(null);
   const animationRef = useRef(null);
 
-  const achievers = [
-    {
-      id: 1,
-      name: "Tola Chala",
-      logo: logo,
-      photo: stud1,
-      achievement: "Completed 100+ coding challenges and became a full-stack developer within 6 months. Now working at Google.",
-      badge: "🥇",
-      year: "2024",
-    },
-    {
-      id: 2,
-      name: "Michael Chen",
-      logo: logo,
-      photo: stud2,
-      achievement: "Built 5 full-stack applications and contributed to open-source projects. Landed a role at Microsoft.",
-      badge: "🥈",
-      year: "2024",
-    },
-    {
-      id: 3,
-      name: "Emily Rodriguez",
-      logo: logo,
-      photo: stud3,
-      achievement: "Mastered Python and Data Science in 4 months. Now working as a Data Analyst at Amazon.",
-      badge: "🥉",
-      year: "2023",
-    },
-    {
-      id: 4,
-      name: "James Wilson",
-      logo: logo,
-      photo: stud4,
-      achievement: "Transitioned from finance to tech in 8 months. Now a Cloud Architect at AWS.",
-      badge: "⭐",
-      year: "2023",
-    },
-    {
-      id: 5,
-      name: "Priya Patel",
-      logo: logo,
-      photo: stud1,
-      achievement: "Learned React Native and published 3 mobile apps. Founded her own startup with 50k+ users.",
-      badge: "🏆",
-      year: "2024",
-    },
-    {
-      id: 6,
-      name: "David Kim",
-      logo: logo,
-      photo: stud2,
-      achievement: "Mastered AI and Machine Learning in 5 months. Leading AI research at a Fortune 500 company.",
-      badge: "🌟",
-      year: "2023",
-    },
-    {
-      id: 7,
-      name: "Lisa Thompson",
-      logo: logo,
-      photo: stud3,
-      achievement: "Went from beginner to senior developer in 1 year. Now mentoring 100+ students.",
-      badge: "🎯",
-      year: "2024",
-    },
-    {
-      id: 8,
-      name: "Alex Rivera",
-      logo: logo,
-      photo: stud4,
-      achievement: "Built a coding bootcamp that helped 500+ students get jobs in tech. Featured in Forbes 30 Under 30.",
-      badge: "🚀",
-      year: "2023",
-    },
-    {
-      id: 9,
-      name: "Maya Williams",
-      logo: logo,
-      photo: stud1,
-      achievement: "Designed and built a learning platform used by 10,000+ students worldwide.",
-      badge: "💎",
-      year: "2024",
-    },
-    {
-      id: 10,
-      name: "Ryan Park",
-      logo: logo,
-      photo: stud2,
-      achievement: "Developed an AI-powered coding assistant that helped 5,000+ developers debug faster.",
-      badge: "🔥",
-      year: "2023",
-    }
-  ];
-
-  // Triple the array for seamless infinite scroll
-  const infiniteAchievers = [...achievers, ...achievers, ...achievers];
-
-  // Auto-scroll logic with slower speed
+const infiniteAchievers=useMemo(() => [...achievers, ...achievers, ...achievers], []);
+  
   useEffect(() => {
     const container = scrollContainerRef.current;
     if (!container) return;
 
     let scrollPos = 0;
-    const speed = 0.5; // Slower speed (was 0.8)
+    const speed = 0.6; 
 
     const animate = () => {
       if (!container) return;
@@ -246,7 +152,7 @@ export default function Achievers() {
                 {/* Logo and Photo */}
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center space-x-2">
-                    <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
                       <img src={achiever.logo} alt="logo" className="w-8 h-8 object-contain" />
                     </div>
                     <div className="min-w-0">
@@ -301,7 +207,7 @@ export default function Achievers() {
               onClick={handleClose}
               className="absolute top-4 right-4 z-10 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 text-xl transition-colors"
             >
-              ✕
+              <FaTimes/>
             </button>
 
             {/* Navigation Buttons */}
@@ -312,7 +218,8 @@ export default function Achievers() {
               }}
               className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white text-gray-800 rounded-full p-3 shadow-lg text-xl transition-all"
             >
-              ◀
+              < FaAngleLeft/>
+
             </button>
 
             <button
@@ -322,7 +229,7 @@ export default function Achievers() {
               }}
               className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white text-gray-800 rounded-full p-3 shadow-lg text-xl transition-all"
             >
-              ▶
+              <FaAngleRight/>
             </button>
 
             {/* Content - Simplified like ID 1 */}

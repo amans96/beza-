@@ -18,9 +18,9 @@
     },
     { label: "Student Life",
       children: [
-         { label: "Clubs & activities", path: "/gallery" },
-         { label: "Sports programs", path: "/gallery" },
-         { label: "Events", path: "/gallery" },
+         { label: "Clubs & activities", path: "/Student" },
+         { label: "Sports programs", path: "/Student" },
+         { label: "Events", path: "/Student" },
       ]
     },
      { label: "Gallery", path: "/gallery" },
