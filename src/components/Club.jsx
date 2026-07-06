@@ -20,6 +20,7 @@ export default function Club() {
             {Clubs.map((club) => {
                 return (
                     <div key={club.id} className=" relative w-80 h-[430px] bg-white rounded-2xl overflow-hidden  shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                        <h2 className="text-xl  text-center font-bold text-gray-800 mb-2">{club.name}</h2>
                         <img src={club.photo[currentImage[club.id] ?? 0]} alt="Club" className="w-full h-52 object-cover " />
                         <button onClick={() => previousImage(club.id, club.photo.length)} className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-md hover:shadow-lg">
                             <FaChevronLeft />
@@ -27,11 +28,11 @@ export default function Club() {
                         <button onClick={() => nextImage(club.id, club.photo.length)} className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-md hover:shadow-lg">
                             <FaChevronRight />
                         </button>
-                       <div className="p-5">
-    <p className="text-gray-600 text-sm leading-6">
-        {club.disc}
-    </p>
-</div>
+                        <div className="p-5">
+                            <p className="text-gray-600 text-sm leading-6">
+                                {club.disc}
+                            </p>
+                        </div>
                     </div>
                 )
             })}
