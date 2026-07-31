@@ -66,7 +66,6 @@ export default function Timeline() {
 
   return (
     <div className="w-full min-h-screen bg-gray-50">
-
       {/* ================= SEARCH AND FILTERS ================= */}
       <div className="flex flex-col items-center pt-10 space-y-4">
         {/* Search Bar */}
@@ -102,50 +101,49 @@ export default function Timeline() {
         </div>
       </div>
 
-      {/* ================= NAVIGATION ================= */}
-     
-
       {/* ================= MAIN LAYOUT ================= */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 px-6 mt-10">
-
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 px-6 pt-8">
         {/* LEFT: TIMELINE */}
-        <div className="relative">
-          <div className="absolute left-6 w-[2px] h-full bg-gray-300"></div>
+        <div className="relative overflow-x-auto md:overflow-visible">
+          {/* Timeline line */}
+        <div className="absolute top-7 left-0 w-full h-[2px] bg-gray-300 md:top-0 md:left-6 md:w-[2px] md:h-[500px]"></div>
 
-          {years.map((year) => {
-            const isActive = activeYear === year;
-            // Check if there are photos for this year
-            const hasPhotosForYear = photos.some(photo => photo.year === year);
+          <div className="flex md:flex-col items-center md:items-start gap-6 md:gap-0">
+            {years.map((year) => {
+              const isActive = activeYear === year;
 
-            return (
-              <div
-                key={year}
-                onClick={() => handleYearClick(year)}
-                className="relative z-10 flex items-center mb-10 cursor-pointer" 
-                
-              >
+              return (
                 <div
-                  className={`w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 ${
-                    isActive
-                      ? "bg-emerald-500 scale-110 shadow-lg"
-                      : "bg-white border-2 border-gray-300 hover:border-emerald-500"
-                  }`}
+                  key={year}
+                  onClick={() => handleYearClick(year)}
+                  className="relative z-10 flex items-center md:mb-10 cursor-pointer flex-shrink-0"
                 >
-                  {isActive ? (
-                    <img src={Logo} alt="logo" className="w-14 h-14 rounded-full" />
-                  ) : (
-                    <span className="text-sm font-bold text-gray-600">
-                      {year}
-                    </span>
-                  )}
+                  <div
+                    className={`w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 ${
+                      isActive
+                        ? "bg-emerald-500 scale-110 shadow-lg"
+                        : "bg-white border-2 border-gray-300 hover:border-emerald-500"
+                    }`}
+                  >
+                    {isActive ? (
+                      <img
+                        src={Logo}
+                        alt="logo"
+                        className="w-14 h-14 rounded-full"
+                      />
+                    ) : (
+                      <span className="text-sm font-bold text-gray-600">
+                        {year}
+                      </span>
+                    )}
+                  </div>
                 </div>
-               
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-
         
+        {/* RIGHT: PHOTO GRID */}
         <div className="md:col-span-3 flex justify-center">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
             {hasPhotos ? (
@@ -166,7 +164,7 @@ export default function Timeline() {
                       {item.disc}
                     </p>
                     <div className="flex flex-wrap gap-1 mt-2 opacity-0 group-hover:opacity-100 transition duration-300">
-                    
+                      {/* Tags could be added here */}
                     </div>
                   </div>
                 </div>
@@ -174,8 +172,6 @@ export default function Timeline() {
             ) : (
               // No results message
               <div className="col-span-full flex flex-col items-center justify-center py-20">
-          
-              
                 <button
                   onClick={clearFilters}
                   className="mt-4 px-6 py-2 bg-emerald-500 text-white rounded-full hover:bg-emerald-600 transition"
@@ -190,7 +186,7 @@ export default function Timeline() {
 
       {/* ================= STATISTICS ================= */}
       <div className="mt-10 px-6 pb-8">
-       
+        {/* Statistics content would go here */}
       </div>
     </div>
   );
