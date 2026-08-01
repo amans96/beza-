@@ -1,5 +1,5 @@
 
-import HeroPage from '../components/HeroPage .jsx';
+import HeroPage from '../components/HeroPage.jsx';
 import Card from '../components/Card.jsx'; 
 import cardsData from '../data/cardsData.js';
 import Achievers from '../components/Achivers.jsx';
