@@ -22,7 +22,7 @@ export default function Home() {
         ))}
       </div>
       <Achievers/>
-       <App/>
+       <Sap/>
       <Footer/>
      
     </div>
