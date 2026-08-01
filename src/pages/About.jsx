@@ -1,4 +1,4 @@
-import React from "react";
+
 import AboutHero  from "../components/AboutHero.jsx";
 import Navbar from "../components/navbar.jsx"
 import PrincipalMessage from "../components/PrincipalMessage.jsx"

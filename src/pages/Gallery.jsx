@@ -1,4 +1,4 @@
-import React from "react";
+
 import {useState,useEffect} from 'React' 
 import Navbar from '../components/navbar.jsx'
 import navbarLinks from '../data/navbar.js';
