@@ -4,7 +4,7 @@ import Card from '../components/Card.jsx';
 import cardsData from '../data/cardsData.js';
 import Achievers from '../components/Achivers.jsx';
 import Footer from '../components/Footer.jsx';
-import App from '../components/app.jsx';
+import Sap from '../components/Sap.jsx';
 import navbarLinks from '../data/navbar.js';
 import Navbar from "../components/navbar.jsx"
 export default function Home() {

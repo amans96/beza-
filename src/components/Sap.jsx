@@ -1,7 +1,7 @@
 import gsap from "gsap";
 import { useRef, useEffect } from "react";  // ✅ Fixed: useRef (capital R)
 
-export default function APP() {
+export default function Sap() {
   const bezaRef = useRef(null);  // ✅ THIS LINE IS MISSING - creates the ref
 
   useEffect(() => {
