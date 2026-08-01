@@ -1,5 +1,5 @@
 
-import {useState,useEffect} from 'React' 
+import {useState,useEffect} from 'react' 
 import Navbar from '../components/navbar.jsx'
 import navbarLinks from '../data/navbar.js';
 import Header from "../components/Header.jsx";
