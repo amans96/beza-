@@ -12,7 +12,7 @@ export default function Home() {
     <div>
         <Navbar links={navbarLinks} />
       <HeroPage />
-      <div className=" my-10 p-10 grid grid-cols-3 gap-6">
+    <div className="my-10 p-10 grid grid-cols-1 md:grid-cols-3 gap-6">
         {cardsData.map((card, index) => (
           <Card
             key={index}

@@ -148,16 +148,33 @@ export default function Timeline() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
             {hasPhotos ? (
               filteredPhotos.map((item) => (
-                <div
-                  key={item.id}
-                  id={item.id}
-                  className="relative group overflow-hidden rounded-xl shadow-lg transition-transform duration-300 hover:scale-[1.02]"
-                >
-                  <img
-                    src={item.real}
-                    alt={item.disc}
-                    className="w-full h-64 object-cover transition duration-300 group-hover:scale-110"
-                  />
+               <div
+  key={item.id}
+  id={item.id}
+  className="
+    relative
+    group
+    overflow-hidden
+    rounded-xl
+    shadow-lg
+    h-72
+    transition-transform
+    duration-300
+    hover:scale-[1.02]
+  "
+>
+  <img
+    src={item.real}
+    alt={item.disc}
+    className="
+      w-full
+      h-full
+      object-cover
+      transition
+      duration-300
+      group-hover:scale-110
+    "
+  />
 
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition duration-300 flex flex-col items-center justify-center">
                     <p className="text-white opacity-0 group-hover:opacity-100 transition duration-300 text-center px-4 font-medium">
