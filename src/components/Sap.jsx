@@ -1,5 +1,6 @@
 import gsap from "gsap";
 import { useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export default function Sap() {
   const bezaRef = useRef(null);
@@ -73,12 +74,12 @@ export default function Sap() {
 
 
           {/* Contact */}
-          <a
-            href="#contact"
-            className="flex items-center justify-center w-44 h-14 rounded-xl bg-[#10b981] text-white font-semibold shadow-lg shadow-orange-500/20 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#10b981]/30"
-          >
-            Contact Us
-          </a>
+         <Link
+  to="/contact"
+  className="flex items-center justify-center w-44 h-14 rounded-xl bg-[#10b981] text-white font-semibold shadow-lg shadow-orange-500/20 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#10b981]/30"
+>
+  Contact Us
+</Link>
 
         </div>
 

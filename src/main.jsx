@@ -6,6 +6,7 @@ import Home from "./pages/Home.jsx";
 import About from "./pages/About.jsx";
 import Gallery from "./pages/Gallery.jsx"
 import Student from "./pages/Student.jsx"
+import Contact from "./pages/Contact.jsx"
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -16,7 +17,12 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: "about", element: <About /> },
         {path:"student",element:<Student/>},
-           {path:"gallery",element:<Gallery/>}
+           {path:"gallery",element:<Gallery/>},
+           {
+  path: "contact",
+  element: <Contact />,
+}
+
 
 
     

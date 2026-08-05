@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import image1 from '../assets/image8.jpg'
-import image2 from '../assets/image11.jpg'
+import image2 from '../assets/contact.jpg'
 import image3 from '../assets/imges3.jpg'
 
 const Explore = () => {

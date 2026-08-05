@@ -9,11 +9,12 @@ import navbarLinks from '../data/navbar.js';
 import Footer from '../components/Footer.jsx';
 import Explore from '../components/Explore.jsx'
 import Club from '../components/Club.jsx'
+import aboutBg from "../assets/hero.jpg"
 export default function About(){
     return(
         <div>
   <Navbar links={navbarLinks} />
-<AboutHero/>
+<AboutHero image={aboutBg} title="About Us" />
 <PrincipalMessage/>
 <Mission/>
 <Goal/>
