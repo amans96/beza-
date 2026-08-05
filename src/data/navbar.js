@@ -8,14 +8,14 @@
          { label: "Our Team", path: "/about" },
       ]
     },
-    {
-      label: "Admissions",
-      children: [
-         { label: "How to apply", path: "/about" },
-         { label: "Admission requirements", path: "/about" },
-         { label: "Tuition & Fees", path: "/about" },
-      ],
-    },
+   {
+  label: "Admissions",
+  children: [
+    { label: "How to apply", path: "/admissions" },
+    { label: "Admission requirements", path: "/admissions" },
+    { label: "Tuition & Fees", path: "/admissions" },
+  ],
+},
     { label: "Student Life",
       children: [
          { label: "Clubs & activities", path: "/Student" },

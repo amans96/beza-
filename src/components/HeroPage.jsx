@@ -13,7 +13,7 @@ const HeroPage = () => {
           muted
           playsInline
           className="h-full w-full object-cover"
-          poster="https://images.unsplash.com/photo-1531297484001-80022131f5a1?q=80&w=2020&auto=format&fit=crop"
+        
         >
           <source
             src={herovideo}

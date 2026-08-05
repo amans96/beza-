@@ -6,25 +6,25 @@ import staff3 from "../assets/teach-3.jpg";
 const staff = [
   {
     name: "Amanule Sisay",
-    role: "Restaurant Manager",
+    role: "School Principal",
     desc: "Amanule has over 10 years of experience managing restaurant operations and ensuring excellent customer satisfaction.",
     img: staff1,
   },
   {
     name: "Samuel Bekele",
-    role: "Executive Chef",
+    role: "Head of student affairs",
     desc: "Samuel creates delicious dishes using fresh ingredients and leads our kitchen team with creativity.",
     img: staff2,
   },
   {
     name: "Hana Alemu",
-    role: "Customer Service",
+    role: "Staff Coordinator",
     desc: "Hana welcomes every guest with a smile and ensures every customer enjoys a memorable experience.",
     img: staff3,
   },
   {
     name: "Natnael Tadesse",
-    role: "Head Waiter",
+    role: "Head of Teaching Staff",
     desc: "Natnael coordinates the service team and guarantees smooth dining experiences every day.",
     img: staff1,
   },
