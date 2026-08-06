@@ -1,166 +1,129 @@
 import {
-  FaGithub,
+  FaFacebook,
+  FaInstagram,
   FaLinkedin,
   FaYoutube,
-  FaDiscord,
-  FaTelegram,
-  FaPhone,
-  FaTiktok,
 } from "react-icons/fa";
-
-import  {footerLinks}  from "../data/footerdata.js";
+import { Link } from "react-router-dom";
+import { footerLinks, socialLinks } from "../data/footerdata.js";
 import logo from '../assets/logo.jpg';
+
+const socialIconMap = {
+  Facebook: FaFacebook,
+  Instagram: FaInstagram,
+  LinkedIn: FaLinkedin,
+  YouTube: FaYoutube,
+};
 
 const Footer = () => {
   return (
-    <footer className="relative bg-[#020617] overflow-hidden text-white">
+    <footer className="relative bg-[#030619] overflow-hidden text-white border-t border-white/5">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-12 pb-6">
+        
+        {/* Main Content: Links (Left) and Branding/Socials (Right) */}
+        <div className="flex flex-col lg:flex-row justify-between gap-12 text-sm">
+          
+          {/* Left Side: 3-Column Links Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8 w-full lg:w-2/3">
+            
+            {/* School */}
+            <div>
+              <h3 className="font-semibold text-base mb-4 text-gray-200">Our School</h3>
+              <ul className="space-y-3 text-slate-400">
+                {footerLinks.school.map((item) => (
+                  <li key={item.label}>
+                    <Link
+                      to={item.path}
+                      className="hover:text-[#22C55E] transition-colors"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-      
-   
+            {/* About */}
+            <div>
+              <h3 className="font-semibold text-base mb-4 text-gray-200">About</h3>
+              <ul className="space-y-3 text-slate-400">
+                {footerLinks.about.map((item) => (
+                  <li key={item.label}>
+                    <Link
+                      to={item.path}
+                      className="hover:text-[#22C55E] transition-colors"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-6 md:py-4">
-
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-
-          {/* Company */}
-          <div>
-            <h3 className="font-bold text-lg mb-5">
-              Our school
-            </h3>
-
-            <ul className="space-y-3 text-slate-400">
-              {footerLinks.school.map((item) => (
-                <li
-                  key={item}
-                  className="hover:text-white cursor-pointer transition"
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
+            {/* Explore */}
+            <div>
+              <h3 className="font-semibold text-base mb-4 text-gray-200">Explore</h3>
+              <ul className="space-y-3 text-slate-400">
+                {footerLinks.explore.map((item) => (
+                  <li key={item.label}>
+                    <Link
+                      to={item.path}
+                      className="hover:text-[#22C55E] transition-colors"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
-          {/* Courses */}
-          <div>
-            <h3 className="font-bold text-lg mb-5">
-              About
-            </h3>
+          {/* Right Side: Logo, Slogan & Socials */}
+          <div className="flex flex-col items-start lg:items-end w-full lg:w-1/3 space-y-6">
+            
+            {/* Logo & Brand Name */}
+            <div className="flex items-center gap-3">
+              <img 
+                src={logo} 
+                alt="Beza School Logo" 
+                className="h-12 w-12 rounded-lg object-contain bg-transparent transition-transform duration-300 hover:scale-105"
+              />
+              <div className="text-left lg:text-right">
+                <h2 className="text-2xl font-bold leading-tight">
+                  Beza<span className="text-[#22C55E]">Barok</span>
+                </h2>
+                <p className="text-slate-400 text-sm mt-1">Build your future here.</p>
+              </div>
+            </div>
 
-            <ul className="space-y-3 text-slate-400">
-              {footerLinks.about.map((item) => (
-                <li
-                  key={item}
-                  className="hover:text-white cursor-pointer transition"
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
+            {/* Social Icons */}
+            <div className="flex items-center gap-5 text-slate-400">
+              {socialLinks.map((social) => {
+                const IconComponent = socialIconMap[social.name];
+                return (
+                  <a
+                    key={social.name}
+                    href={social.link}
+                    aria-label={social.name}
+                    className="hover:text-[#22C55E] hover:scale-110 transition-all"
+                  >
+                    {IconComponent && <IconComponent size={22} />}
+                  </a>
+                );
+              })}
+            </div>
+            
           </div>
-
-          {/* Interview Prep */}
-          <div>
-            <h3 className="font-bold text-lg mb-5">
-          Academics
-            </h3>
-
-            <ul className="space-y-3 text-slate-400">
-              {footerLinks.academics.map((item) => (
-                <li
-                  key={item}
-                  className="hover:text-white cursor-pointer transition"
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Resources */}
-          <div>
-            <h3 className="font-bold text-lg mb-5">
-              Resources
-            </h3>
-
-            <ul className="space-y-3 text-slate-400">
-              {footerLinks.resources.map((item) => (
-                <li
-                  key={item}
-                  className="hover:text-white cursor-pointer transition"
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Community */}
-          <div>
-            <h3 className="font-bold text-lg mb-5">
-              Community
-            </h3>
-
-            <ul className="space-y-3 text-slate-400">
-              {footerLinks.community.map((item) => (
-                <li
-                  key={item}
-                  className="hover:text-white cursor-pointer transition"
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-
         </div>
 
         {/* Divider */}
-        <div className="h-px bg-slate-800 my-12"></div>
+        <div className="h-px bg-white/10 my-8"></div>
 
-        {/* Bottom */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-
-          <div>
-            <h2 className="text-2xl font-bold">
-              Beza<span className="text-[#10b981]"> BezaBarok</span>
-            </h2>
-            <img src={logo} className="h-[50px] w-[50px] ml-5 transition-transform duration-300 hover:scale-105"></img>
-
-            <p className="text-slate-400 mt-2">
-              Build your future here.
-            </p>
-          </div>
-
-          <div className="flex items-center gap-5">
-
-            <FaTelegram 
-              size={22}
-              className="cursor-pointer hover:scale-110 transition"
-            />
-
-            <FaLinkedin 
-              size={22}
-              className="cursor-pointer hover:scale-110 transition"
-            />
-
-            <FaPhone
-              size={22}
-              className="cursor-pointer hover:scale-110 transition"
-            />
-
-            <FaTiktok
-              size={22}
-              className="cursor-pointer hover:scale-110 transition"
-            />
-
-
-          </div>
-        </div>
-
-        <div className="text-center text-slate-500 mt-12">
+        {/* Bottom Section: Copyright Centered */}
+        <div className="text-slate-500 text-sm text-center">
           © 2026 Beza. All rights reserved.
         </div>
-
+        
       </div>
     </footer>
   );

@@ -1,48 +1,34 @@
 export const footerLinks = {
   school: [
-    "About Us",
-    "Admissions",
-    "Academics",
-    "Contact Us",
-    "Careers",
+    { label: "Home", path: "/" },
+    { label: "About Us", path: "/about" },
+    { label: "Admissions", path: "/admissions" },
+    { label: "Student Life", path: "/student" },
+    { label: "Gallery", path: "/gallery" },
   ],
 
   about: [
-    "School History",
-    "Mission & Vision",
-    "Principal's Message",
-    "Campus Tour",
-    "Why Choose Us",
+    { label: "Our Story", path: "/about#story" },
+    { label: "Mission & Vision", path: "/about#mission" },
+    { label: "Principal's Message", path: "/about#principal" },
+    { label: "Our Team", path: "/about#team" },
+    { label: "Why Choose Us", path: "/#why-choose-us" },
   ],
 
-  academics: [
-    "Kindergarten",
-    "Primary School",
-    "Secondary School",
-    "Curriculum",
-    "Student Life",
-  ],
-
-  resources: [
-    "School Calendar",
-    "News & Updates",
-    "Parent Portal",
-    "Library",
-    "Downloads",
-  ],
-
-  community: [
-    "Events",
-    "Student Achievements",
-    "Alumni Network",
-    "Parent Association",
-    "Community Outreach",
+  explore: [
+    { label: "Careers", path: "/careers" },
+    { label: "Register", path: "/register" },
+    { label: "FAQs", path: "/faq" }, // or "/about#faq" if it's on About
+    { label: "Contact Us", path: "/contact" },
   ],
 };
-
 export const socialLinks = [
   {
-    name: "GitHub",
+    name: "Facebook",
+    link: "#",
+  },
+  {
+    name: "Instagram",
     link: "#",
   },
   {
@@ -51,14 +37,6 @@ export const socialLinks = [
   },
   {
     name: "YouTube",
-    link: "#",
-  },
-  {
-    name: "Discord",
-    link: "#",
-  },
-  {
-    name: "Twitter",
     link: "#",
   },
 ];

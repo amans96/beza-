@@ -56,21 +56,21 @@ export default function Sap() {
         <div className="flex flex-wrap justify-center gap-5">
 
           {/* Register */}
-          <a
-            href="#register"
-            className="flex items-center justify-center w-44 h-14 rounded-xl bg-[#10b981] text-white font-semibold shadow-lg shadow-orange-500/20 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#10b981]/30"
-          >
-            Register
-          </a>
+         <Link
+  to="/Register"
+  className="flex items-center justify-center w-44 h-14 rounded-xl bg-[#10b981] text-white font-semibold shadow-lg shadow-orange-500/20 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#10b981]/30"
+>
+  Register
+</Link>
 
 
           {/* FAQ */}
-          <a
-            href="#faq"
+          <Link
+            to="/about#faq"
             className="flex items-center justify-center w-44 h-14 rounded-xl border-2 border-[#10b981] text-[#10b981] font-semibold bg-white transition-all duration-300 hover:-translate-y-1 hover:bg-[#10b981] hover:text-white"
           >
             FAQs
-          </a>
+          </Link>
 
 
           {/* Contact */}

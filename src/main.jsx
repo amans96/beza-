@@ -8,8 +8,10 @@ import Gallery from "./pages/Gallery.jsx"
 import Student from "./pages/Student.jsx"
 import Contact from "./pages/Contact.jsx"
 import Admissions from "./pages/Admissions.jsx"
+import Faq from "./components/Faq.jsx"
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
+import Register from "./components/Register.jsx";
+import Careers from "./pages/Careers.jsx"
 const router = createBrowserRouter([
   {
     path: "/",
@@ -23,7 +25,10 @@ const router = createBrowserRouter([
            {
   path: "contact",
   element: <Contact />,
-}
+},
+{ path: "faq", element: <Faq /> },
+{ path: "register", element: <Register /> },
+{ path: "careers", element: <Careers /> },
 
 
 

@@ -10,12 +10,14 @@ import Footer from '../components/Footer.jsx';
 import Explore from '../components/Explore.jsx'
 import Club from '../components/Club.jsx'
 import aboutBg from "../assets/hero.jpg"
+import Faq from "../components/Faq.jsx";
 export default function About(){
     return(
         <div>
   <Navbar links={navbarLinks} />
 <AboutHero image={aboutBg} title="About Us" />
 <PrincipalMessage/>
+<Faq/>
 <Mission/>
 <Goal/>
 <StaffPage/>

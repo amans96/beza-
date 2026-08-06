@@ -23,7 +23,9 @@
          { label: "Events", path: "/Student" },
       ]
     },
+    { label: "Careers", path: "/careers" },
      { label: "Gallery", path: "/gallery" },
+     
   ];
 
  export default links;
