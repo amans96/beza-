@@ -11,7 +11,7 @@ export default function  Student(){
             <Navbar links={navbarLinks} />
              <Club/>
              <Events/>
-           
+            <Footer/>
         </div>
     )
  };

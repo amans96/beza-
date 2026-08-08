@@ -1,12 +1,15 @@
 // components/Goal.jsx
-import React from 'react';
+import React, { useState } from 'react';
 import { FaBullseye, FaRocket, FaChartLine, FaUsers } from 'react-icons/fa';
 import grad from '../assets/grad.jpg';
 import image1 from '../assets/images.jpg';
 import higher from '../assets/high1.jpg'; 
 
-
 const Goal = () => {
+  // States to track which item is tapped on mobile
+  const [activeGoal, setActiveGoal] = useState(null);
+  const [activeImg, setActiveImg] = useState(null);
+
   const goals = [
     {
       number: "01",
@@ -38,17 +41,32 @@ const Goal = () => {
               <img 
                 src={grad}
                 alt="Goal 1"
-                className="absolute top-12 left-6 w-48 h-36 lg:w-64 lg:h-44 object-cover rounded-2xl shadow-lg hover:scale-105 hover:z-10 hover:shadow-xl transition-all duration-300 rotate-[-6deg]"
+                onClick={() => setActiveImg(activeImg === 0 ? null : 0)}
+                onMouseLeave={() => setActiveImg(null)}
+                className={`
+                  absolute top-12 left-6 w-48 h-36 lg:w-64 lg:h-44 object-cover rounded-2xl transition-all duration-300 rotate-[-6deg] cursor-pointer
+                  ${activeImg === 0 ? 'scale-105 z-10 shadow-xl' : 'shadow-lg hover:scale-105 hover:z-10 hover:shadow-xl'}
+                `}
               />
               <img 
                 src={image1}
                 alt="Goal 2"
-                className="absolute top-12 left-40 w-48 h-36 lg:w-64 lg:h-44 object-cover rounded-2xl shadow-lg hover:scale-105 hover:z-10 hover:shadow-xl transition-all duration-300 rotate-[4deg]"
+                onClick={() => setActiveImg(activeImg === 1 ? null : 1)}
+                onMouseLeave={() => setActiveImg(null)}
+                className={`
+                  absolute top-12 left-40 w-48 h-36 lg:w-64 lg:h-44 object-cover rounded-2xl transition-all duration-300 rotate-[4deg] cursor-pointer
+                  ${activeImg === 1 ? 'scale-105 z-10 shadow-xl' : 'shadow-lg hover:scale-105 hover:z-10 hover:shadow-xl'}
+                `}
               />
               <img 
                 src={higher} 
                 alt="Goal 3"
-                className="absolute top-44 left-20 w-48 h-36 lg:w-64 lg:h-44 object-cover rounded-2xl shadow-lg hover:scale-105 hover:z-10 hover:shadow-xl transition-all duration-300 rotate-[-2deg]"
+                onClick={() => setActiveImg(activeImg === 2 ? null : 2)}
+                onMouseLeave={() => setActiveImg(null)}
+                className={`
+                  absolute top-44 left-20 w-48 h-36 lg:w-64 lg:h-44 object-cover rounded-2xl transition-all duration-300 rotate-[-2deg] cursor-pointer
+                  ${activeImg === 2 ? 'scale-105 z-10 shadow-xl' : 'shadow-lg hover:scale-105 hover:z-10 hover:shadow-xl'}
+                `}
               />
               {/* Glow effect overlay */}
               <div className="absolute inset-0 pointer-events-none bg-gradient-radial from-amber-100/20 to-transparent"></div>
@@ -60,12 +78,20 @@ const Goal = () => {
             {goals.map((goal, index) => (
               <div 
                 key={index} 
-               className="group bg-white p-8 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 relative overflow-hidden"
+                onClick={() => setActiveGoal(activeGoal === index ? null : index)}
+                onMouseLeave={() => setActiveGoal(null)}
+                className={`
+                  group bg-white p-8 rounded-2xl transition-all duration-300 relative overflow-hidden cursor-pointer
+                  ${activeGoal === index ? 'shadow-xl -translate-y-2' : 'shadow-md hover:shadow-xl hover:-translate-y-2'}
+                `}
               >
                 {/* Corner decoration */}
-               <div className="absolute top-0 right-0 w-0 h-0 border-solid border-[30px] border-transparent bg-gradient-to-r from-lime-600 to-lime-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className={`
+                  absolute top-0 right-0 w-0 h-0 border-solid border-[30px] border-transparent bg-gradient-to-r from-lime-600 to-lime-400 transition-opacity duration-300
+                  ${activeGoal === index ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}
+                `}></div>
                 
-                <div className="flex items-start gap-6">
+                <div className="flex items-start gap-6 relative z-10">
                   <span className="text-3xl md:text-4xl font-bold text-orange-600 min-w-[60px] font-serif">
                     {goal.number}
                   </span>

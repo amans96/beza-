@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import whyChooseData from "../data/whyChooseData";
 
 const WhyChooseUs = () => {
+  // State to track which card is tapped on mobile
+  const [activeCard, setActiveCard] = useState(null);
+
   return (
     <section className="relative py-24 bg-slate-50 overflow-hidden">
       {/* 1. Creative Background Blobs (Adds depth to the whole section) */}
@@ -31,27 +34,33 @@ const WhyChooseUs = () => {
           {whyChooseData.map((item) => (
             <div
               key={item.id}
+              // Toggle active state on tap, reset on second tap
+              onClick={() => setActiveCard(activeCard === item.id ? null : item.id)}
+              // Clear state when mouse leaves (for desktop users)
+              onMouseLeave={() => setActiveCard(null)}
               className={`
                 group relative
                 bg-white/60 backdrop-blur-xl
                 rounded-3xl
                 p-8 md:p-10
                 border border-white/80
-                shadow-[0_8px_30px_rgb(0,0,0,0.04)]
                 transition-all duration-500
-                hover:shadow-[0_20px_40px_rgb(0,0,0,0.12)]
-                hover:-translate-y-2
+                cursor-pointer
+                ${activeCard === item.id 
+                  ? 'shadow-[0_20px_40px_rgb(0,0,0,0.12)] -translate-y-2' 
+                  : 'shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.12)] hover:-translate-y-2'
+                }
                 ${item.hoverColor || ''}
                 overflow-hidden
               `}
             >
-              {/* Subtle Gradient Overlay inside card on hover */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
+              {/* Subtle Gradient Overlay inside card on hover / click */}
+              <div className={`absolute inset-0 bg-gradient-to-br from-white/40 to-transparent transition-opacity duration-500 z-0 ${activeCard === item.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}></div>
 
               {/* 2. Icon Container with Ambient Glow Effect */}
               <div className="relative mb-8 inline-block z-10">
                 {/* Blurred ambient glow behind the icon */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${item.color} blur-xl opacity-40 group-hover:opacity-70 transition-opacity duration-500 rounded-full scale-150`}></div>
+                <div className={`absolute inset-0 bg-gradient-to-br ${item.color} blur-xl transition-opacity duration-500 rounded-full scale-150 ${activeCard === item.id ? 'opacity-70' : 'opacity-40 group-hover:opacity-70'}`}></div>
 
                 {/* Actual Icon Box */}
                 <div className={`
@@ -63,7 +72,7 @@ const WhyChooseUs = () => {
                   text-3xl
                   shadow-lg
                   transform transition-transform duration-500
-                  group-hover:scale-110 group-hover:-rotate-3
+                  ${activeCard === item.id ? 'scale-110 -rotate-3' : 'group-hover:scale-110 group-hover:-rotate-3'}
                 `}>
                   <span className="text-white drop-shadow-md">{item.icon}</span>
                 </div>
@@ -71,10 +80,10 @@ const WhyChooseUs = () => {
 
               {/* Text Content */}
               <div className="relative z-10">
-                <h3 className="text-2xl font-bold text-gray-800 mb-4 transition-colors duration-300 group-hover:text-black">
+                <h3 className={`text-2xl font-bold mb-4 transition-colors duration-300 ${activeCard === item.id ? 'text-black' : 'text-gray-800 group-hover:text-black'}`}>
                   {item.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed transition-colors duration-300 group-hover:text-gray-800">
+                <p className={`leading-relaxed transition-colors duration-300 ${activeCard === item.id ? 'text-gray-800' : 'text-gray-600 group-hover:text-gray-800'}`}>
                   {item.description}
                 </p>
               </div>
@@ -85,10 +94,9 @@ const WhyChooseUs = () => {
                 w-40 h-40
                 bg-gradient-to-br ${item.color}
                 rounded-full
-                opacity-0 group-hover:opacity-10
                 transition-all duration-700 ease-out
-                group-hover:scale-[2.5]
                 z-0
+                ${activeCard === item.id ? 'opacity-10 scale-[2.5]' : 'opacity-0 group-hover:opacity-10 group-hover:scale-[2.5]'}
               `} />
             </div>
           ))}

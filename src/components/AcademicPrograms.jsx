@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Baby, BookOpen, GraduationCap, School, ArrowRight } from "lucide-react";
 import academicProgramsData from "../data/academicProgramsData";
 
@@ -26,6 +26,9 @@ const iconBoxStyles = [
 ];
 
 const AcademicPrograms = () => {
+  // State to track which card is tapped on mobile
+  const [activeCard, setActiveCard] = useState(null);
+
   return (
     <section className="py-24 bg-slate-50">
       {/* Inline style for the entrance keyframe animation */}
@@ -67,24 +70,30 @@ const AcademicPrograms = () => {
             const IconComponent = iconMap[program.icon] || School;
             const badgeClass = badgeStyles[index % badgeStyles.length];
             const iconBoxClass = iconBoxStyles[index % iconBoxStyles.length];
+            const isActive = activeCard === program.id;
 
             return (
               <div
                 key={program.id}
                 style={{ animationDelay: `${index * 150}ms` }}
-                className="
+                onClick={() => setActiveCard(isActive ? null : program.id)}
+                onMouseLeave={() => setActiveCard(null)}
+                className={`
                   group
                   opacity-0 animate-card-enter
                   bg-white
                   rounded-3xl
                   p-8
-                  border border-slate-200/80
-                  shadow-sm
+                  border
                   flex flex-col
                   justify-between
                   transition-all duration-300 ease-in-out
-                  hover:-translate-y-2 hover:shadow-xl hover:border-slate-300
-                "
+                  cursor-pointer
+                  ${isActive 
+                    ? '-translate-y-2 shadow-xl border-slate-300' 
+                    : 'border-slate-200/80 shadow-sm hover:-translate-y-2 hover:shadow-xl hover:border-slate-300'
+                  }
+                `}
               >
                 {/* Top Section: Age Badge & Icon */}
                 <div>
@@ -100,8 +109,9 @@ const AcademicPrograms = () => {
                     <div
                       className={`
                         w-12 h-12 rounded-2xl flex items-center justify-center shadow-sm 
-                        transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3
+                        transition-transform duration-300
                         ${iconBoxClass}
+                        ${isActive ? 'scale-110 rotate-3' : 'group-hover:scale-110 group-hover:rotate-3'}
                       `}
                     >
                       <IconComponent className="w-6 h-6" />
@@ -109,7 +119,10 @@ const AcademicPrograms = () => {
                   </div>
 
                   {/* Title & Description */}
-                  <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-[#00b876] transition-colors duration-300">
+                  <h3 className={`
+                    text-xl font-bold mb-3 transition-colors duration-300
+                    ${isActive ? 'text-[#00b876]' : 'text-slate-900 group-hover:text-[#00b876]'}
+                  `}>
                     {program.title}
                   </h3>
                   <p className="text-slate-600 text-sm leading-relaxed mb-8">
@@ -121,21 +134,22 @@ const AcademicPrograms = () => {
                 <div className="pt-6 border-t border-slate-100">
                   <button
                     type="button"
-                    className="
+                    className={`
                       w-full
                       py-3 px-4
                       rounded-xl
-                      bg-slate-900
                       text-white
                       text-sm
                       font-medium
                       flex
                       items-center
                       justify-center
-                      gap-2
                       transition-all duration-300
-                      hover:bg-[#00b876] hover:gap-3 hover:shadow-md
-                    "
+                      ${isActive 
+                        ? 'bg-[#00b876] gap-3 shadow-md' 
+                        : 'bg-slate-900 gap-2 group-hover:bg-[#00b876] group-hover:gap-3 group-hover:shadow-md'
+                      }
+                    `}
                   >
                     <span>{program.buttonText}</span>
                     <ArrowRight className="w-4 h-4 transition-transform duration-300" />

@@ -1,7 +1,11 @@
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { careerReasonsData } from "../data/careerReasonsData"; // Adjust the path based on your folder structure
 
 const WhyWorkWithUs = () => {
+  // State to track which card is tapped on mobile
+  const [activeCard, setActiveCard] = useState(null);
+
   // Framer Motion variants for the staggered entrance
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -44,26 +48,44 @@ const WhyWorkWithUs = () => {
           viewport={{ once: true, margin: "-100px" }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          {careerReasonsData.map((reason) => (
-            <motion.div 
-              key={reason.id}
-              variants={cardVariants}
-              className="group bg-white rounded-xl p-8 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300"
-            >
-              {/* Icon Container */}
-              <div className="w-14 h-14 rounded-full flex items-center justify-center bg-gray-100 text-gray-700 group-hover:bg-[#22C55E] group-hover:text-white transition-colors duration-300 mb-6">
-                <reason.icon size={24} strokeWidth={1.5} />
-              </div>
+          {careerReasonsData.map((reason) => {
+            const isActive = activeCard === reason.id;
 
-              {/* Text Content */}
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                {reason.title}
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                {reason.description}
-              </p>
-            </motion.div>
-          ))}
+            return (
+              <motion.div 
+                key={reason.id}
+                variants={cardVariants}
+                onClick={() => setActiveCard(isActive ? null : reason.id)}
+                onMouseLeave={() => setActiveCard(null)}
+                className={`
+                  group bg-white rounded-xl p-8 transition-all duration-300 cursor-pointer
+                  ${isActive 
+                    ? 'shadow-md -translate-y-1' 
+                    : 'shadow-sm hover:shadow-md hover:-translate-y-1'
+                  }
+                `}
+              >
+                {/* Icon Container */}
+                <div className={`
+                  w-14 h-14 rounded-full flex items-center justify-center transition-colors duration-300 mb-6
+                  ${isActive 
+                    ? 'bg-[#22C55E] text-white' 
+                    : 'bg-gray-100 text-gray-700 group-hover:bg-[#22C55E] group-hover:text-white'
+                  }
+                `}>
+                  <reason.icon size={24} strokeWidth={1.5} />
+                </div>
+
+                {/* Text Content */}
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                  {reason.title}
+                </h3>
+                <p className="text-gray-600 leading-relaxed">
+                  {reason.description}
+                </p>
+              </motion.div>
+            );
+          })}
         </motion.div>
 
       </div>

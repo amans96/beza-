@@ -1,6 +1,7 @@
 import navbar from "../components/navbar.jsx";
 import Navbar from '../components/navbar.jsx'
 import navbarLinks from '../data/navbar.js';
+import Footer from '../components/Footer.jsx';
 import AboutHero from '../components/AboutHero.jsx';
 import teaches from '../assets/teaches.jpg'
 import Reasons from '../components/Reasons.jsx'
@@ -12,6 +13,7 @@ export default function Careers() {
       <AboutHero image={teaches} />
       <Reasons/>
       <WhyWorkWithUs/>
+      <Footer/>
 
     </div>
   );

@@ -14,6 +14,7 @@ import AdmissionsTimeline from "../components/AdmissionsTimeline.jsx";
             <WhyChooseUs />
             <AcademicPrograms/>
             <AdmissionsTimeline/>
+            <Footer/>
 
             
            
