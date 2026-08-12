@@ -3,7 +3,7 @@ import principal from "../assets/principal.jpg";
 
 export default function PrincipalMessage() {
   return (
-    <section className="mx-auto max-w-7xl px-6 py-20 lg:px-12">
+    <section className="mx-auto max-w-7xl px-6 py-20 lg:px-12" id="principal">
       
       {/* Header */}
       <div className="mb-16 text-center">

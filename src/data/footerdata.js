@@ -1,11 +1,11 @@
 export const footerLinks = {
-  school: [
-    { label: "Home", path: "/" },
-    { label: "About Us", path: "/about" },
-    { label: "Admissions", path: "/admissions" },
-    { label: "Student Life", path: "/student" },
-    { label: "Gallery", path: "/gallery" },
-  ],
+school: [
+  { label: "Home", path: "/" },
+  { label: "About Us", path: "/about#principal" },
+  { label: "Admissions", path: "/admissions#why" },
+  { label: "Student Life", path: "/student" },
+  { label: "Gallery", path: "/gallery#gallery" },
+],
 
   about: [
     { label: "Our Story", path: "/about#story" },

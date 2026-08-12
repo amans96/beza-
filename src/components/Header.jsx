@@ -52,7 +52,7 @@ export default function Timeline() {
   };
 
   return (
-    <div className="w-full min-h-screen bg-slate-50 font-sans pb-20">
+    <div className="w-full min-h-screen bg-slate-50 font-sans pb-20" id="gallery">
       {/* Custom Keyframes for staggered entrance */}
       <style>
         {`

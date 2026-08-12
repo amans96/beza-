@@ -6,7 +6,7 @@ const WhyChooseUs = () => {
   const [activeCard, setActiveCard] = useState(null);
 
   return (
-    <section className="relative py-24 bg-slate-50 overflow-hidden">
+    <section className="relative py-24 bg-slate-50 overflow-hidden" id="why">
       {/* 1. Creative Background Blobs (Adds depth to the whole section) */}
       <div className="absolute inset-0 w-full h-full overflow-hidden z-0 pointer-events-none">
         <div className="absolute -top-24 -left-24 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-pulse"></div>

@@ -30,16 +30,24 @@ const Footer = () => {
             <div>
               <h3 className="font-semibold text-base mb-4 text-gray-200">Our School</h3>
               <ul className="space-y-3 text-slate-400">
-                {footerLinks.school.map((item) => (
-                  <li key={item.label}>
-                    <Link
-                      to={item.path}
-                      className="hover:text-[#22C55E] transition-colors"
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
+                {footerLinks.school.map((item) => {
+                  // Intercept the path and append the specific #id hashes
+                  let targetPath = item.path;
+                  if (item.label === "About Us" || item.label === "About") targetPath = "/about#principal";
+                  if (item.label === "Admissions") targetPath = "/admissions#why";
+                  if (item.label === "Gallery") targetPath = "/gallery#gallery";
+
+                  return (
+                    <li key={item.label}>
+                      <Link
+                        to={targetPath}
+                        className="hover:text-[#22C55E] transition-colors"
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
 
