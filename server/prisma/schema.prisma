@@ -1,17 +1,10 @@
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
-}
-
-enum UserRole {
-  USER
-  ADMIN
+  provider = "postgresql"
+  url      = "postgresql://postgres@localhost:5433/beza_db?schema=public"
 }
 
 model User {
@@ -75,4 +68,9 @@ model Gallery {
   @@index([category])
   @@index([tag])
   @@index([year])
+}
+
+enum UserRole {
+  USER
+  ADMIN
 }
