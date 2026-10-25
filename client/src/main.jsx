@@ -17,7 +17,7 @@ import Register from "./components/Register.jsx";
 import Careers from "./pages/Careers.jsx";
 
 import Login from "./pages/Login.jsx";
-import AdminDashboard from "./pages/admin/Dashboard.jsx";
+import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 
