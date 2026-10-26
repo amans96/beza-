@@ -21,6 +21,9 @@ import Careers from "./pages/Careers.jsx";
 import Login from "./pages/Login.jsx";
 import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
 import Achievers from "./pages/admin/Achievers.jsx";
+import GalleryA from "./pages/admin/GalleryA.jsx";
+import Events from "./pages/admin/Events.jsx";
+import Clubs from "./pages/admin/Clubs.jsx";
 import AdminLayout from "./layouts/AdminLayout.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
@@ -59,6 +62,18 @@ const router = createBrowserRouter([
         {
           path: "achievers",
           element: <Achievers />,
+        },
+        {
+          path: "clubs",
+          element: <Clubs />,
+        },
+        {
+          path: "events",
+          element: <Events />,
+        },
+        {
+          path: "gallery",
+          element: <GalleryA />,
         },
       ],
     },
