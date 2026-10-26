@@ -1,3 +1,4 @@
+
 import "./index.css";
 import ReactDOM from "react-dom/client";
 import {
@@ -6,6 +7,7 @@ import {
 } from "react-router-dom";
 
 import App from "./App.jsx";
+
 import Home from "./pages/Home.jsx";
 import About from "./pages/About.jsx";
 import Gallery from "./pages/Gallery.jsx";
@@ -18,10 +20,13 @@ import Careers from "./pages/Careers.jsx";
 
 import Login from "./pages/Login.jsx";
 import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
+import Achievers from "./pages/admin/Achievers.jsx";
+import AdminLayout from "./layouts/AdminLayout.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 
 const router = createBrowserRouter([
+  // Public website
   {
     path: "/",
     element: <App />,
@@ -36,19 +41,29 @@ const router = createBrowserRouter([
       { path: "register", element: <Register /> },
       { path: "careers", element: <Careers /> },
       { path: "login", element: <Login /> },
+    ],
+  },
 
-     {
-  path: "admin",
+  // Protected admin workspace
+ {
+  path: "/admin",
   element: <ProtectedRoute />,
   children: [
     {
-      index: true,
-      element: <AdminDashboard />,
+      element: <AdminLayout />,
+      children: [
+        {
+          index: true,
+          element: <AdminDashboard />,
+        },
+        {
+          path: "achievers",
+          element: <Achievers />,
+        },
+      ],
     },
   ],
 },
-    ],
-  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
