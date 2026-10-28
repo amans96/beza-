@@ -7,8 +7,14 @@ import achieverRoutes from "./routes/achieverRoutes.js";
 import clubRoutes from "./routes/clubRoutes.js";
 import eventRoutes from "./routes/eventRoutes.js";
 import galleryRoutes from "./routes/galleryRoutes.js";
+import cors from "cors";
 const app = express();
-
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 // Serve uploaded images
@@ -20,6 +26,10 @@ app.use("/api/achievers", achieverRoutes);
 app.use("/api/clubs", clubRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/gallery", galleryRoutes);
-// Register Event, Gallery, and other routes here when ready.
 
-export default app;
+// Start the server
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Beza API server running at http://localhost:${PORT}`);
+});
