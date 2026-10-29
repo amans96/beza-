@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { careerReasonsData } from "../data/careerReasonsData"; // Adjust the path based on your folder structure
 

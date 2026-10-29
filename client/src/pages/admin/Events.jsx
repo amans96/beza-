@@ -1,5 +1,4 @@
-
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Plus,
   Search,
@@ -73,10 +72,7 @@ export default function Events() {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
 
-  const loadEvents = useCallback(async () => {
-    setLoading(true);
-    setError("");
-
+  async function loadEvents() {
     try {
       const response = await api.get("/events");
       setEvents(response.data || []);
@@ -85,11 +81,27 @@ export default function Events() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }
 
   useEffect(() => {
-    loadEvents();
-  }, [loadEvents]);
+    let active = true;
+
+    api
+      .get("/events")
+      .then((response) => {
+        if (active) setEvents(response.data || []);
+      })
+      .catch((err) => {
+        if (active) setError(err.message || "Failed to load events.");
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   function resetForm() {
     setForm(emptyForm);

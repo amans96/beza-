@@ -1,102 +1,161 @@
-import React, { useState } from 'react';
-import image1 from '../assets/image8.jpg';
-import image2 from '../assets/contact.jpg';
-import image3 from '../assets/imges3.jpg';
+import { useState } from "react";
+import { Compass, ArrowRight } from "lucide-react";
+import image1 from "../assets/image8.jpg";
+import image2 from "../assets/contact.jpg";
+import image3 from "../assets/imges3.jpg";
 
-const Explore = () => {
-  const [activeTab, setActiveTab] = useState('learning');
+export default function Explore() {
+  const [activeTab, setActiveTab] = useState("learning");
 
-  // Merging content and images into a single cleaner data object
   const data = {
     learning: {
-      title: 'Learning',
-      description: 'Beza Bezbarok is a global leader in international education and innovation, creating impactful, personalized, real-world learning experiences for our students. We offer the full suite of International Baccalaureate programs, including the Primary Years Programme, Middle Years Programme (MYP), Diploma Programme (DP), and Career-related Programme (CP) in Grades 11 and 12. Find out more about academics at ICS.',
-      img: image1
-    },
-    alumni: {
-      title: 'Alumni',
-      description: 'With more than 60 years of history, the ICS Alumni Network spans around the globe. We value the sustained connections we have with our former students, parents, and staff. There are several ways to remain involved with the school after your departure, including mentorship and internship programs, networking events, and use of the campus facilities.',
-      img: image2
+      id: "learning",
+      title: "Academic & STEM Excellence",
+      subtitle: "Comprehensive Curriculum & Inquiry-Based Pedagogy",
+      description:
+        "Beza School delivers an enriching curriculum designed to develop analytical rigor and creative problem solving. From foundational literacy and numeracy in primary years to advanced secondary sciences and mathematics, our students learn with personalized mentorship and state-of-the-art interactive tools.",
+      img: image1,
+      badge: "Curriculum & Labs",
     },
     activities: {
-      title: 'Activities',
-      description: "Our 15-acre campus is an oasis in the heart of Ethiopia's capital. Our school buildings feature state-of-the-art classrooms, purposefully designed to be flexible to adapt to different styles of learning. Our spaces are well-equipped with the latest technology and resources. We have internationally certified athletics facilities, as well as indoor and outdoor performance spaces, studios, and play areas. Plant and animal life are abundant at ICS Addis, with a student-run garden, water collection equipment, stunning flowers and the infamous tortoises who freely roam around the grounds.",
-      img: image3
-    }
+      id: "activities",
+      title: "Vibrant Campus & Co-Curriculars",
+      subtitle: "Sports, Arts, Robotics & Leadership",
+      description:
+        "Our green and spacious campus provides dedicated sports facilities, science laboratories, arts studios, and student-led clubs. Whether competing in inter-school basketball, coding in robotics lab, or debating in the Model UN, every student discovers their unique passion.",
+      img: image3,
+      badge: "Campus Life",
+    },
+    alumni: {
+      id: "alumni",
+      title: "Proud Alumni Community",
+      subtitle: "23+ Years of Global Achievers",
+      description:
+        "With more than 23 years of educational history, our alumni network spans across higher education institutions, medical practices, technological innovation, and civil service. We cherish lifelong ties with former students who frequently return to mentor the next generation.",
+      img: image2,
+      badge: "Alumni Network",
+    },
   };
 
   return (
-    // Added 'flex' here which was missing in the original code for flex-col to work properly
-    <div className="min-h-screen bg-[#f4f7fb] flex flex-col items-center justify-center p-4 sm:p-8 md:p-12">
-      
-      <h1 className="text-3xl md:text-5xl font-serif font-semibold text-[#0B2B44] tracking-tight mb-8 text-center">
-        Explore BezBarok
-      </h1>
+    <section className="py-20 sm:py-28 bg-slate-50 relative overflow-hidden" id="explore">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold uppercase tracking-wider border border-emerald-200 mb-3">
+            <Compass size={14} className="text-emerald-600" />
+            Discover Beza
+          </span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 tracking-tight font-heading">
+            Explore Campus Life & Learning
+          </h2>
+          <p className="mt-4 text-base sm:text-lg text-slate-600 leading-relaxed">
+            Take a closer look at what makes our daily learning community vibrant, inspiring, and transformative.
+          </p>
+        </div>
 
-      {/* Main Unified Card Container */}
-      <div className="w-full max-w-6xl bg-white rounded-3xl sm:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col lg:flex-row">
-        
-        {/* Left Side: Text / Accordion Content */}
-        <div className="w-full lg:w-[55%] p-6 sm:p-10 md:p-12 flex flex-col justify-center bg-white z-10">
-          <div className="flex flex-col gap-2">
+        {/* Main Interactive Showcase */}
+        <div className="bg-white rounded-3xl sm:rounded-[2.5rem] shadow-xl border border-slate-200/90 overflow-hidden flex flex-col lg:flex-row">
+          {/* Left Column: Interactive Tab Accordion */}
+          <div className="w-full lg:w-[52%] p-6 sm:p-10 md:p-12 flex flex-col justify-center bg-white z-10">
+            <div className="space-y-4">
+              {Object.entries(data).map(([key, item]) => {
+                const isActive = activeTab === key;
+
+                return (
+                  <div
+                    key={key}
+                    onClick={() => setActiveTab(key)}
+                    className={`p-6 rounded-2xl transition-all duration-300 cursor-pointer border ${
+                      isActive
+                        ? "bg-emerald-50/60 border-emerald-300 shadow-sm"
+                        : "bg-white border-slate-100 hover:border-slate-200 hover:bg-slate-50/60"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <span
+                        className={`text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ${
+                          isActive
+                            ? "bg-emerald-600 text-white"
+                            : "bg-slate-100 text-slate-500"
+                        }`}
+                      >
+                        {item.badge}
+                      </span>
+                      <ArrowRight
+                        size={16}
+                        className={`transition-transform duration-300 ${
+                          isActive
+                            ? "translate-x-1 text-emerald-600"
+                            : "text-slate-300"
+                        }`}
+                      />
+                    </div>
+
+                    <h3
+                      className={`text-xl sm:text-2xl font-bold font-heading transition-colors ${
+                        isActive ? "text-emerald-950" : "text-slate-800"
+                      }`}
+                    >
+                      {item.title}
+                    </h3>
+
+                    <p className="text-xs font-medium text-emerald-700 mt-1">
+                      {item.subtitle}
+                    </p>
+
+                    <div
+                      className={`grid transition-all duration-300 ease-in-out ${
+                        isActive
+                          ? "grid-rows-[1fr] opacity-100 mt-4 pt-3 border-t border-emerald-200/50"
+                          : "grid-rows-[0fr] opacity-0"
+                      }`}
+                    >
+                      <div className="overflow-hidden">
+                        <p className="text-slate-600 text-sm leading-relaxed">
+                          {item.description}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Right Column: Visual Frame */}
+          <div className="w-full lg:w-[48%] min-h-[300px] sm:min-h-[400px] lg:min-h-full relative bg-slate-900 overflow-hidden">
             {Object.entries(data).map(([key, item]) => {
               const isActive = activeTab === key;
               return (
-                <div 
-                  key={key} 
-                  className="cursor-pointer border-b border-gray-100 pb-4 mb-4 last:border-0 last:mb-0 last:pb-0"
-                  onClick={() => setActiveTab(key)}
+                <div
+                  key={key}
+                  className={`absolute inset-0 w-full h-full transition-all duration-700 ease-out ${
+                    isActive
+                      ? "opacity-100 scale-100 z-10"
+                      : "opacity-0 scale-105 z-0 pointer-events-none"
+                  }`}
                 >
-                  {/* Title */}
-                  <h2 className={`text-2xl sm:text-3xl font-serif font-semibold transition-colors duration-300 ${
-                    isActive ? 'text-green-700' : 'text-[#0b2b44] hover:text-green-600'
-                  }`}>
-                    {item.title}
-                  </h2>
-                  
-                  {/* Description with smooth CSS Grid height animation */}
-                  <div className={`grid transition-all duration-500 ease-in-out ${
-                    isActive ? 'grid-rows-[1fr] opacity-100 mt-4' : 'grid-rows-[0fr] opacity-0 mt-0'
-                  }`}>
-                    <div className="overflow-hidden">
-                      <p className="text-[#1f3a4e] leading-relaxed text-sm sm:text-base font-['Montserrat','Segoe_UI',sans-serif] pr-2 sm:pr-6">
-                        {item.description}
-                      </p>
-                    </div>
+                  <img
+                    src={item.img}
+                    alt={item.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute bottom-6 left-6 right-6 p-4 rounded-2xl bg-slate-950/60 backdrop-blur-md border border-white/10 text-white">
+                    <p className="text-xs font-bold uppercase tracking-wider text-emerald-400">
+                      {item.badge}
+                    </p>
+                    <p className="text-sm font-semibold text-white mt-0.5">
+                      {item.title}
+                    </p>
                   </div>
                 </div>
               );
             })}
           </div>
         </div>
-
-        {/* Right Side (Desktop) / Bottom (Mobile): Images */}
-        {/* Fixed height on mobile (h-[300px]) removes the awkward white space, auto stretches on desktop */}
-        <div className="w-full lg:w-[45%] h-[300px] sm:h-[400px] lg:h-auto relative bg-[#d9e2ec] overflow-hidden">
-          {Object.entries(data).map(([key, item]) => {
-            const isActive = activeTab === key;
-            return (
-              <div
-                key={key}
-                className={`absolute inset-0 w-full h-full transition-all duration-700 ease-in-out ${
-                  isActive ? 'opacity-100 scale-100 z-10' : 'opacity-0 scale-110 z-0'
-                }`}
-              >
-                <img
-                  src={item.img}
-                  alt={item.title}
-                  className="w-full h-full object-cover"
-                />
-                {/* Optional overlay to make it look a bit richer */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
-              </div>
-            );
-          })}
-        </div>
-
       </div>
-    </div>
+    </section>
   );
-};
-
-export default Explore;
+}

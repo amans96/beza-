@@ -1,5 +1,4 @@
-
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Plus,
   Search,
@@ -45,10 +44,7 @@ export default function Clubs() {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
 
-  const loadClubs = useCallback(async () => {
-    setLoading(true);
-    setError("");
-
+  async function loadClubs() {
     try {
       const response = await api.get("/clubs");
       setClubs(response.data || []);
@@ -57,11 +53,27 @@ export default function Clubs() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }
 
   useEffect(() => {
-    loadClubs();
-  }, [loadClubs]);
+    let active = true;
+
+    api
+      .get("/clubs")
+      .then((response) => {
+        if (active) setClubs(response.data || []);
+      })
+      .catch((err) => {
+        if (active) setError(err.message || "Failed to load clubs.");
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   function resetForm() {
     setForm(emptyForm);

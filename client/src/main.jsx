@@ -14,7 +14,7 @@ import Gallery from "./pages/Gallery.jsx";
 import Student from "./pages/Student.jsx";
 import Contact from "./pages/Contact.jsx";
 import Admissions from "./pages/Admissions.jsx";
-import Faq from "./components/Faq.jsx";
+import FaqPage from "./pages/FaqPage.jsx";
 import Register from "./components/Register.jsx";
 import Careers from "./pages/Careers.jsx";
 
@@ -40,7 +40,7 @@ const router = createBrowserRouter([
       { path: "student", element: <Student /> },
       { path: "gallery", element: <Gallery /> },
       { path: "contact", element: <Contact /> },
-      { path: "faq", element: <Faq /> },
+      { path: "faq", element: <FaqPage /> },
       { path: "register", element: <Register /> },
       { path: "careers", element: <Careers /> },
       { path: "login", element: <Login /> },

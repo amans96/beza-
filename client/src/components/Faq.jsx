@@ -1,24 +1,36 @@
 import { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, HelpCircle, MessageSquare } from "lucide-react";
+import { Link } from "react-router-dom";
 import faqData from "../data/faqsData.js";
 
-const Faq = () => {
-  const [activeId, setActiveId] = useState(null);
+export default function Faq() {
+  const [activeId, setActiveId] = useState(1);
 
   const handleToggle = (id) => {
     setActiveId(activeId === id ? null : id);
   };
 
   return (
-    <section className="w-full py-20 text-white bg-gradient-to-b from-transparent via-transparent via-50% to-[#030619]">
-      <div className="max-w-4xl mx-auto px-4 md:px-6">
-        
+    <section className="py-20 sm:py-28 bg-slate-900 text-white relative overflow-hidden" id="faq">
+      {/* Background Glow */}
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header Section */}
-        <div className="mb-14 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-[#22C55E] mb-4 tracking-tight">
-            Frequently Asked <span className="text-[#22C55E]">Questions</span>
+        <div className="text-center max-w-2xl mx-auto mb-14 sm:mb-16">
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-500/15 text-emerald-400 text-xs font-bold uppercase tracking-wider border border-emerald-500/30 mb-3">
+            <HelpCircle size={14} />
+            Got Questions?
+          </span>
+
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight font-heading">
+            Frequently Asked <span className="text-emerald-400">Questions</span>
           </h2>
-         
+
+          <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
+            Find answers to common questions about admissions, academic curriculum, school hours, and student life at Beza School.
+          </p>
         </div>
 
         {/* FAQ Accordion */}
@@ -29,36 +41,34 @@ const Faq = () => {
             return (
               <div
                 key={faq.id}
-                className={`bg-[#030619]/80 backdrop-blur-md rounded-xl overflow-hidden transition-all duration-300 border shadow-lg ${
-                  isActive 
-                    ? "border-[#22C55E]/50 shadow-[#22C55E]/5" 
-                    : "border-white/10 hover:border-white/20"
+                className={`rounded-2xl transition-all duration-300 border overflow-hidden ${
+                  isActive
+                    ? "bg-slate-800/90 border-emerald-500/40 shadow-xl shadow-emerald-950/20"
+                    : "bg-slate-950/60 border-white/10 hover:border-white/20 hover:bg-slate-800/50"
                 }`}
               >
                 <button
+                  type="button"
                   onClick={() => handleToggle(faq.id)}
-                  className="w-full flex items-center justify-between p-6 text-left transition-colors duration-300 hover:bg-white/5"
+                  aria-expanded={isActive}
+                  className="w-full flex items-center justify-between p-5 sm:p-6 text-left transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
                 >
                   <span
-                    className={`font-medium text-lg transition-colors duration-300 ${
-                      isActive ? "text-[#22C55E]" : "text-gray-200"
+                    className={`font-semibold text-base sm:text-lg transition-colors pr-4 ${
+                      isActive ? "text-emerald-400" : "text-white"
                     }`}
                   >
                     {faq.question}
                   </span>
 
-                  {/* Icon with smooth rotation and dynamic background */}
-                  <div 
-                    className={`p-1.5 rounded-full transition-colors duration-300 flex-shrink-0 ml-4 ${
-                      isActive ? "bg-[#22C55E]/10 text-[#22C55E]" : "text-gray-400"
+                  <div
+                    className={`p-2 rounded-xl transition-all duration-300 flex-shrink-0 ${
+                      isActive
+                        ? "bg-emerald-500 text-slate-950 rotate-180"
+                        : "bg-white/10 text-slate-300"
                     }`}
                   >
-                    <ChevronDown
-                      size={20}
-                      className={`transition-transform duration-300 ease-in-out ${
-                        isActive ? "rotate-180" : "rotate-0"
-                      }`}
-                    />
+                    <ChevronDown size={18} />
                   </div>
                 </button>
 
@@ -71,7 +81,7 @@ const Faq = () => {
                   }`}
                 >
                   <div className="overflow-hidden">
-                    <p className="px-6 pb-6 text-gray-400 leading-relaxed">
+                    <p className="px-5 sm:px-6 pb-6 text-slate-300 text-sm sm:text-base leading-relaxed border-t border-white/5 pt-4">
                       {faq.answer}
                     </p>
                   </div>
@@ -80,9 +90,26 @@ const Faq = () => {
             );
           })}
         </div>
+
+        {/* Still Have Questions Box */}
+        <div className="mt-12 p-6 sm:p-8 rounded-3xl bg-slate-950/70 border border-white/10 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center flex-shrink-0">
+              <MessageSquare size={22} />
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-white">Have more questions?</h3>
+              <p className="text-sm text-slate-400">Our admissions officers are here to assist you.</p>
+            </div>
+          </div>
+          <Link
+            to="/contact"
+            className="px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-sm font-bold transition-all shadow-md flex-shrink-0"
+          >
+            Contact Admissions
+          </Link>
+        </div>
       </div>
     </section>
   );
-};
-
-export default Faq;
+}

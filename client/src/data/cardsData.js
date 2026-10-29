@@ -1,27 +1,31 @@
- const cardsData = [
+const cardsData = [
   {
     id: 1,
-    icon: "bi-patch-check",
-    title: "The right place to grow",
-    description: "For over 23 years, Beza School has been committed to nurturing young minds in a supportive and inspiring environment.",
-    color: "from-blue-500 to-cyan-500",
+    icon: "ShieldCheck",
+    badge: "Foundation",
+    title: "The Right Place to Grow",
+    description: "For over 23 years, Beza School has nurtured young minds in a supportive, inspiring, and values-driven community.",
+    color: "from-emerald-500 to-teal-500",
     delay: 0
   },
   {
     id: 2,
-    icon: "bi-graph-up-arrow",
-    title: "Over 23 years of excellence",
-    description: "A legacy of academic excellence and innovation, preparing students for success in a rapidly changing world.",
-    color: "from-purple-500 to-pink-500",
+    icon: "TrendingUp",
+    badge: "Excellence",
+    title: "23+ Years of Academic Success",
+    description: "A proven legacy of top academic results, critical inquiry, and global curriculum standards preparing students for the modern world.",
+    color: "from-blue-500 to-indigo-600",
     delay: 100
   },
   {
     id: 3,
-    icon: "bi-rocket-takeoff",
-    title: "Launch your future here",
-    description: "State-of-the-art facilities, experienced educators, and a curriculum designed to inspire and challenge every student.",
-    color: "from-orange-500 to-red-500",
+    icon: "Rocket",
+    badge: "Innovation",
+    title: "Launch Your Future Here",
+    description: "Advanced STEM labs, arts, athletics, and personalized mentorship empowering tomorrow's leaders to realize their highest potential.",
+    color: "from-amber-500 to-orange-500",
     delay: 200
   }
 ];
+
 export default cardsData;

@@ -1,81 +1,52 @@
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useMemo,
-} from "react";
-
-import {
-  FaAngleLeft,
-  FaAngleRight,
-  FaTimes,
-} from "react-icons/fa";
-
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
+import { Trophy, Award, ChevronLeft, ChevronRight, X, Sparkles, Star } from "lucide-react";
 import api from "../api/api.js";
+import { achievers as fallbackAchievers } from "../data/achieversData.js";
 
-const API_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
-
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 const API_ORIGIN = API_URL.replace(/\/api\/?$/, "");
 
 function getImageUrl(image) {
   if (!image) return "";
-
   if (image.startsWith("http://") || image.startsWith("https://")) {
     return image;
   }
-
   return `${API_ORIGIN}${image.startsWith("/") ? "" : "/"}${image}`;
 }
 
 export default function Achievers() {
-  const [achievers, setAchievers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
+  const [achievers, setAchievers] = useState(fallbackAchievers);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const scrollContainerRef = useRef(null);
-  const animationRef = useRef(null);
 
-  // Fetch achievers from the backend.
+  // Fetch achievers from backend, fall back to default academic achievers if offline/empty
   useEffect(() => {
     let cancelled = false;
 
     async function fetchAchievers() {
       try {
-        setLoading(true);
-        setError("");
-
         const response = await api.get("/achievers");
-
         if (cancelled) return;
 
-        const items = Array.isArray(response.data)
+        const items = Array.isArray(response.data) && response.data.length > 0
           ? response.data
-          : [];
+          : fallbackAchievers;
 
-        // Map backend fields to the existing UI fields.
-        const formattedAchievers = items.map((item, index) => ({
+        const formatted = items.map((item, index) => ({
           ...item,
           id: item.id ?? index + 1,
-          badge: "🏆",
-          year: item.achievementClass || "Achiever",
-          logo: "",
-          photo: getImageUrl(item.photo),
-          achievement: item.description || "",
+          badge: item.badge || `Rank ${item.rank || index + 1}`,
+          year: item.year || item.achievementClass || "Honors",
+          photo: item.photo ? getImageUrl(item.photo) : "",
+          achievement: item.achievement || item.description || "Outstanding academic and personal achievement.",
         }));
 
-        setAchievers(formattedAchievers);
-      } catch (err) {
+        setAchievers(formatted);
+      } catch {
         if (!cancelled) {
-          console.error("Failed to fetch achievers:", err);
-          setError("Unable to load achievers. Please try again later.");
-        }
-      } finally {
-        if (!cancelled) {
-          setLoading(false);
+          setAchievers(fallbackAchievers);
         }
       }
     }
@@ -87,369 +58,282 @@ export default function Achievers() {
     };
   }, []);
 
-  // Duplicate the data to preserve the infinite scrolling effect.
-  const infiniteAchievers = useMemo(
-    () =>
-      achievers.length > 0
-        ? [...achievers, ...achievers, ...achievers]
-        : [],
-    [achievers]
-  );
+  const displayList = useMemo(() => {
+    return achievers.length > 0 ? achievers : fallbackAchievers;
+  }, [achievers]);
 
-  // Automatic horizontal scrolling.
-useEffect(() => {
-  const container = scrollContainerRef.current;
+  // Infinite ticker list
+  const infiniteAchievers = useMemo(() => {
+    return displayList.length > 0
+      ? [...displayList, ...displayList, ...displayList]
+      : [];
+  }, [displayList]);
 
-  if (!container || achievers.length === 0) return;
+  // Smooth auto-scroll
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container || displayList.length === 0) return;
 
-  let animationId;
-  let previousTime = 0;
-  let paused = false;
+    let animationId;
+    let previousTime = 0;
+    let paused = false;
+    const speed = 32; // px per sec
 
-  const speed = 35; // pixels per second
+    const animate = (time) => {
+      if (paused) return;
 
-  const animate = (time) => {
-    if (paused) return;
+      if (previousTime !== 0) {
+        const delta = (time - previousTime) / 1000;
+        container.scrollLeft += speed * delta;
+      }
 
-    if (previousTime !== 0) {
-      const delta = (time - previousTime) / 1000;
-      container.scrollLeft += speed * delta;
-    }
+      previousTime = time;
 
-    previousTime = time;
+      const firstSetWidth = container.scrollWidth / 3;
+      if (firstSetWidth > 0 && container.scrollLeft >= firstSetWidth) {
+        container.scrollLeft -= firstSetWidth;
+      }
 
-    // Width of one complete set of cards.
-    const firstSetWidth = container.scrollWidth / 3;
+      animationId = requestAnimationFrame(animate);
+    };
 
-    if (
-      firstSetWidth > 0 &&
-      container.scrollLeft >= firstSetWidth
-    ) {
-      container.scrollLeft -= firstSetWidth;
-    }
+    const pause = () => {
+      paused = true;
+    };
+
+    const resume = () => {
+      paused = false;
+      previousTime = 0;
+      animationId = requestAnimationFrame(animate);
+    };
 
     animationId = requestAnimationFrame(animate);
-  };
 
-  const pause = () => {
-    paused = true;
-    cancelAnimationFrame(animationId);
-  };
+    container.addEventListener("mouseenter", pause);
+    container.addEventListener("mouseleave", resume);
+    container.addEventListener("touchstart", pause, { passive: true });
+    container.addEventListener("touchend", resume, { passive: true });
 
-  const resume = () => {
-    if (!paused) return;
+    return () => {
+      cancelAnimationFrame(animationId);
+      container.removeEventListener("mouseenter", pause);
+      container.removeEventListener("mouseleave", resume);
+      container.removeEventListener("touchstart", pause);
+      container.removeEventListener("touchend", resume);
+    };
+  }, [displayList]);
 
-    paused = false;
-    previousTime = 0;
-    animationId = requestAnimationFrame(animate);
-  };
-
-  animationId = requestAnimationFrame(animate);
-
-  container.addEventListener("mouseenter", pause);
-  container.addEventListener("mouseleave", resume);
-
-  return () => {
-    cancelAnimationFrame(animationId);
-    container.removeEventListener("mouseenter", pause);
-    container.removeEventListener("mouseleave", resume);
-  };
-}, [achievers]);
-
-  // Open the selected achiever.
   const handleCardClick = (index) => {
-    if (achievers.length === 0) return;
-
-    const actualIndex = index % achievers.length;
-
+    const actualIndex = index % displayList.length;
     setSelectedIndex(actualIndex);
     setCurrentIndex(actualIndex);
   };
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setSelectedIndex(null);
-  };
+  }, []);
 
-  const handlePrev = () => {
-    setCurrentIndex((prev) =>
-      prev === 0 ? achievers.length - 1 : prev - 1
-    );
-  };
+  const handlePrev = useCallback(() => {
+    setCurrentIndex((prev) => (prev === 0 ? displayList.length - 1 : prev - 1));
+  }, [displayList.length]);
 
-  const handleNext = () => {
-    setCurrentIndex((prev) =>
-      prev === achievers.length - 1 ? 0 : prev + 1
-    );
-  };
+  const handleNext = useCallback(() => {
+    setCurrentIndex((prev) => (prev === displayList.length - 1 ? 0 : prev + 1));
+  }, [displayList.length]);
 
-  // Keyboard navigation for the modal.
+  // Keyboard navigation for modal
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (selectedIndex === null || achievers.length === 0) return;
-
+      if (selectedIndex === null) return;
       if (event.key === "ArrowLeft") handlePrev();
       if (event.key === "ArrowRight") handleNext();
       if (event.key === "Escape") handleClose();
     };
 
     window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [selectedIndex, achievers.length]);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selectedIndex, handleNext, handlePrev, handleClose]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-emerald-50 py-16 px-6 overflow-hidden">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <span className="text-[#10b981] font-semibold uppercase tracking-wider text-sm bg-emerald-100 px-4 py-2 rounded-full inline-block">
-            Our Achievers
+    <section className="py-20 sm:py-28 bg-gradient-to-b from-slate-50 via-emerald-50/25 to-slate-50 overflow-hidden relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="text-center max-w-2xl mx-auto mb-14 sm:mb-16">
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider mb-3">
+            <Trophy size={14} className="text-emerald-700" />
+            Student Hall of Fame
           </span>
 
-          <h1 className="text-4xl md:text-5xl font-bold mt-4 text-gray-800">
-            Success Stories
-          </h1>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 tracking-tight font-heading">
+            Celebrating Academic Excellence
+          </h2>
 
-          <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
-            Meet our amazing students who transformed their careers through CodeHub
+          <p className="mt-4 text-base sm:text-lg text-slate-600 leading-relaxed">
+            Meet our exceptional students who achieved outstanding examination scores, national competitions, and university placements through Beza School.
           </p>
         </div>
 
-        {/* Loading state */}
-        {loading && (
-          <div className="text-center py-12 text-gray-600">
-            Loading achievers...
-          </div>
-        )}
-
-        {/* Error state */}
-        {!loading && error && (
-          <div className="text-center py-12">
-            <p className="text-red-600 mb-4">{error}</p>
-
-            <button
-              onClick={() => window.location.reload()}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2 rounded-lg transition-colors"
+        {/* Carousel Container */}
+        <div
+          ref={scrollContainerRef}
+          className="flex overflow-x-auto gap-6 pb-6 pt-2 no-scrollbar cursor-grab active:cursor-grabbing select-none"
+        >
+          {infiniteAchievers.map((achiever, index) => (
+            <div
+              key={`${achiever.id}-${index}`}
+              onClick={() => handleCardClick(index)}
+              className="flex-shrink-0 w-72 sm:w-80 bg-white rounded-3xl p-5 border border-slate-200 shadow-sm hover:shadow-xl hover:border-emerald-300 hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between"
             >
-              Try Again
-            </button>
-          </div>
-        )}
-
-        {/* Empty state */}
-        {!loading && !error && achievers.length === 0 && (
-          <div className="text-center py-12 text-gray-600">
-            No achievers have been added yet.
-          </div>
-        )}
-
-        {/* Horizontal scrolling cards */}
-        {!loading && !error && achievers.length > 0 && (
-          <div
-            ref={scrollContainerRef}
-            className="flex overflow-x-auto gap-6 pb-8 hide-scrollbar cursor-grab"
-            style={{
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-              overflowX: "auto",
-              scrollBehavior: "auto",
-            }}
-          >
-            {infiniteAchievers.map((achiever, index) => (
-              <div
-                key={`${achiever.id}-${index}`}
-                onClick={() => handleCardClick(index)}
-                className="flex-shrink-0 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-emerald-200 cursor-pointer hover:scale-105 hover:border-emerald-400"
-                style={{
-                  width: "246px",
-                  height: "353px",
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
-                {/* Badge */}
-                <div className="bg-gradient-to-r from-emerald-500 to-emerald-600 px-3 py-1.5 flex items-center justify-between flex-shrink-0">
-                  <div className="flex items-center space-x-1.5">
-                    <span className="text-lg">{achiever.badge}</span>
-
-                    <span className="text-white font-semibold text-xs">
-                      {achiever.year}
-                    </span>
-                  </div>
-
-                  <span className="text-white/70 text-[10px] bg-white/20 px-2 py-0.5 rounded-full">
-                    #{index % achievers.length + 1}
+              <div>
+                {/* Header Tag */}
+                <div className="flex items-center justify-between mb-4">
+                  <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                    <Star size={12} className="fill-emerald-500 text-emerald-500" />
+                    {achiever.badge}
+                  </span>
+                  <span className="text-xs font-medium text-slate-400">
+                    {achiever.year}
                   </span>
                 </div>
 
-                {/* Content */}
-                <div className="p-4 flex-1 flex flex-col">
-                  {/* Logo and photo */}
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center space-x-2 min-w-0">
-                      <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden bg-emerald-50">
-                        <span className="text-xl">🏆</span>
+                {/* Student Photo & Name */}
+                <div className="flex items-center gap-3.5 mb-4">
+                  <div className="w-14 h-14 rounded-2xl overflow-hidden bg-slate-100 ring-2 ring-emerald-500/20 flex-shrink-0">
+                    {achiever.photo ? (
+                      <img
+                        src={achiever.photo}
+                        alt={achiever.name}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-emerald-50 text-emerald-600 font-bold text-xl">
+                        {achiever.name?.charAt(0) || "B"}
                       </div>
-
-                      <div className="min-w-0">
-                        <h3 className="font-semibold text-gray-800 text-sm truncate">
-                          {achiever.name}
-                        </h3>
-                      </div>
-                    </div>
-
-                    <div className="w-10 h-10 rounded-lg flex-shrink-0 overflow-hidden bg-gray-100">
-                      {achiever.photo ? (
-                        <img
-                          src={achiever.photo}
-                          alt={achiever.name}
-                          className="w-full h-full object-cover"
-                          loading="lazy"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs">
-                          No photo
-                        </div>
-                      )}
-                    </div>
+                    )}
                   </div>
-
-                  {/* Achievement */}
-                  <div className="bg-emerald-50 rounded-lg p-3 border border-emerald-100 flex-1">
-                    <p className="text-gray-700 text-[11px] leading-relaxed line-clamp-4">
-                      {achiever.achievement}
+                  <div className="min-w-0">
+                    <h3 className="font-bold text-slate-900 text-base truncate">
+                      {achiever.name}
+                    </h3>
+                    <p className="text-xs text-emerald-600 font-semibold">
+                      Beza School Achiever
                     </p>
                   </div>
+                </div>
 
-                  {/* Stats */}
-                  <div className="mt-3 flex items-center justify-between text-[10px] text-gray-500 border-t border-emerald-100 pt-2 flex-shrink-0">
-                    <div className="flex items-center space-x-1">
-                      <span>⭐</span>
-                      <span>Top Achiever</span>
-                    </div>
-
-                    <span className="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">
-                      Class of {achiever.year}
-                    </span>
-                  </div>
+                {/* Achievement Blurb */}
+                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
+                  <p className="text-xs sm:text-sm text-slate-600 line-clamp-3 leading-relaxed">
+                    {achiever.achievement}
+                  </p>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
+
+              {/* Card Footer */}
+              <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-emerald-600">
+                <span>View story</span>
+                <span>→</span>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Modal */}
-      {selectedIndex !== null && achievers[currentIndex] && (
+      {/* Modal Dialog for Achiever Detail */}
+      {selectedIndex !== null && displayList[currentIndex] && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="achiever-modal-title"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-fade-in"
           onClick={handleClose}
         >
           <div
-            className="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto relative"
-            onClick={(event) => event.stopPropagation()}
+            className="relative w-full max-w-xl bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
           >
-            {/* Close button */}
+            {/* Close Button */}
             <button
               onClick={handleClose}
-              className="absolute top-4 right-4 z-10 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 text-xl transition-colors"
-              aria-label="Close"
+              className="absolute top-5 right-5 p-2 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+              aria-label="Close dialog"
             >
-              <FaTimes />
+              <X size={20} />
             </button>
 
-            {/* Previous button */}
+            {/* Previous & Next Floating Buttons */}
             <button
-              onClick={(event) => {
-                event.stopPropagation();
-                handlePrev();
-              }}
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white text-gray-800 rounded-full p-3 shadow-lg text-xl transition-all"
+              onClick={handlePrev}
+              className="absolute left-3 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-white shadow-lg border border-slate-200 text-slate-700 hover:text-emerald-600 hover:scale-105 transition-all"
               aria-label="Previous achiever"
             >
-              <FaAngleLeft />
+              <ChevronLeft size={20} />
             </button>
 
-            {/* Next button */}
             <button
-              onClick={(event) => {
-                event.stopPropagation();
-                handleNext();
-              }}
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white text-gray-800 rounded-full p-3 shadow-lg text-xl transition-all"
+              onClick={handleNext}
+              className="absolute right-3 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-white shadow-lg border border-slate-200 text-slate-700 hover:text-emerald-600 hover:scale-105 transition-all"
               aria-label="Next achiever"
             >
-              <FaAngleRight />
+              <ChevronRight size={20} />
             </button>
 
-            {/* Modal content */}
-            <div className="p-6 md:p-8">
-              <div className="flex items-start space-x-4 mb-4">
-                <div className="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 bg-gray-100">
-                  {achievers[currentIndex].photo ? (
+            {/* Modal Body */}
+            <div className="px-6 sm:px-8 text-center sm:text-left">
+              <div className="flex flex-col sm:flex-row items-center gap-5 mb-6">
+                <div className="w-24 h-24 rounded-3xl overflow-hidden bg-slate-100 ring-4 ring-emerald-500/20 shadow-md flex-shrink-0">
+                  {displayList[currentIndex].photo ? (
                     <img
-                      src={achievers[currentIndex].photo}
-                      alt={achievers[currentIndex].name}
+                      src={displayList[currentIndex].photo}
+                      alt={displayList[currentIndex].name}
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-2xl">
-                      🏆
+                    <div className="w-full h-full flex items-center justify-center bg-emerald-100 text-emerald-700 text-3xl font-bold">
+                      {displayList[currentIndex].name?.charAt(0) || "A"}
                     </div>
                   )}
                 </div>
 
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center space-x-2 mb-1">
-                    <span className="text-2xl">
-                      {achievers[currentIndex].badge}
-                    </span>
-
-                    <h2 className="text-2xl font-bold text-gray-800">
-                      {achievers[currentIndex].name}
-                    </h2>
-                  </div>
-
-                  <div className="flex items-center space-x-3 text-sm text-gray-500">
-                    <span>🏅 {achievers[currentIndex].year}</span>
-                  </div>
+                <div>
+                  <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 mb-2">
+                    <Award size={14} />
+                    {displayList[currentIndex].badge}
+                  </span>
+                  <h3 id="achiever-modal-title" className="text-2xl font-bold text-slate-900 font-heading">
+                    {displayList[currentIndex].name}
+                  </h3>
+                  <p className="text-sm font-medium text-slate-500">
+                    {displayList[currentIndex].year} • Beza School
+                  </p>
                 </div>
               </div>
 
-              <div className="bg-emerald-50 rounded-xl p-5 border border-emerald-100">
-                <h3 className="font-semibold text-gray-800 mb-2">
-                  🏆 Achievement
-                </h3>
-
-                <p className="text-gray-700 leading-relaxed">
-                  {achievers[currentIndex].achievement}
+              {/* Achievement Box */}
+              <div className="p-5 rounded-2xl bg-emerald-50/60 border border-emerald-100 mb-6">
+                <p className="text-xs uppercase font-bold tracking-wider text-emerald-800 mb-2 flex items-center gap-1.5">
+                  <Sparkles size={14} className="text-emerald-600" />
+                  Key Achievement
+                </p>
+                <p className="text-slate-700 text-sm sm:text-base leading-relaxed">
+                  {displayList[currentIndex].achievement}
                 </p>
               </div>
 
-              <div className="mt-6 flex items-center justify-between text-sm text-gray-400 border-t border-emerald-100 pt-4">
+              {/* Pagination info */}
+              <div className="flex items-center justify-between text-xs text-slate-400 pt-3 border-t border-slate-100">
                 <span>
-                  {currentIndex + 1} of {achievers.length}
+                  Profile {currentIndex + 1} of {displayList.length}
+                </span>
+                <span className="text-emerald-600 font-semibold">
+                  Beza Alumni & Scholars
                 </span>
               </div>
             </div>
           </div>
         </div>
       )}
-
-      <style>{`
-        .hide-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-
-        .line-clamp-4 {
-          display: -webkit-box;
-          -webkit-line-clamp: 4;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-      `}</style>
-    </div>
+    </section>
   );
 }

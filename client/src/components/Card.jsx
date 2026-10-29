@@ -1,98 +1,108 @@
-import React, { useEffect, useRef, useState } from 'react';
-// import cardsDatas from '../data/cardsData.js' // Uncomment if needed
+import { useEffect, useRef, useState } from "react";
+import { ShieldCheck, TrendingUp, Rocket, Award, Sparkles, ArrowRight } from "lucide-react";
+
+const iconMap = {
+  ShieldCheck,
+  TrendingUp,
+  Rocket,
+  Award,
+  Sparkles,
+};
 
 export default function Card({
   icon,
+  badge,
   title,
   description,
-  color,
-  delay,
-  index
+  color = "from-emerald-500 to-teal-500",
+  delay = 0,
 }) {
   const [isVisible, setIsVisible] = useState(false);
-  // New state to track mobile clicks
-  const [isActive, setIsActive] = useState(false); 
   const cardRef = useRef(null);
 
+  const IconComponent = iconMap[icon] || Sparkles;
+
   useEffect(() => {
+    const node = cardRef.current;
+    if (!node) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setTimeout(() => {
             setIsVisible(true);
           }, delay);
-          observer.unobserve(cardRef.current);
+          observer.unobserve(node);
         }
       },
       {
-        threshold: 0.1,
-        rootMargin: '50px'
+        threshold: 0.15,
+        rootMargin: "30px",
       }
     );
 
-    if (cardRef.current) {
-      observer.observe(cardRef.current);
-    }
+    observer.observe(node);
 
     return () => {
-      if (cardRef.current) {
-        observer.unobserve(cardRef.current);
-      }
+      observer.unobserve(node);
     };
   }, [delay]);
 
   return (
-    <div
+    <article
       ref={cardRef}
-      // Toggle active state on click/tap
-      onClick={() => setIsActive(!isActive)} 
-      // Reset state if a desktop user clicks and then moves their mouse away
-      onMouseLeave={() => setIsActive(false)} 
-      className={`
-        group relative overflow-hidden rounded-2xl bg-white p-8 shadow-xl transition-all duration-700 cursor-pointer
-        ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'}
-      `}
+      className={`group relative overflow-hidden rounded-3xl bg-white p-8 sm:p-9 border border-slate-200/90 shadow-sm transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-2xl hover:border-slate-300 flex flex-col justify-between ${
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+      }`}
       style={{
         transitionDelay: `${delay}ms`,
-        transitionProperty: 'all',
-        transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)'
       }}
     >
-      {/* Animated gradient background on hover / click */}
-      <div className={`absolute inset-0 bg-gradient-to-br ${color} transition-opacity duration-500 ${isActive ? 'opacity-10' : 'opacity-0 group-hover:opacity-10'}`}></div>
-      
-      {/* Animated border effect */}
-      <div className={`absolute inset-0 rounded-2xl border-2 border-transparent bg-gradient-to-r from-transparent via-transparent to-transparent ${isActive ? 'border-opacity-20' : 'group-hover:border-opacity-20'}`}></div>
-      
-      {/* Icon with animation */}
-      <div className={`
-        mb-6 transform transition-all duration-500
-        ${isVisible ? 'scale-100 rotate-0' : 'scale-0 -rotate-180'}
-      `}>
-        <i className={`bi ${icon} text-5xl bg-gradient-to-br ${color} bg-clip-text text-transparent`}></i>
+      {/* Decorative gradient corner glow */}
+      <div
+        className={`absolute -right-16 -top-16 h-40 w-40 rounded-full bg-gradient-to-br ${color} opacity-10 blur-2xl transition-all duration-500 group-hover:scale-150 group-hover:opacity-20 pointer-events-none`}
+      />
+
+      <div>
+        {/* Top bar: Badge & Icon */}
+        <div className="flex items-center justify-between mb-6">
+          <div
+            className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${color} flex items-center justify-center text-white shadow-md shadow-emerald-500/15 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}
+          >
+            <IconComponent size={26} strokeWidth={2} />
+          </div>
+
+          {badge && (
+            <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-slate-100 text-slate-600 border border-slate-200 group-hover:bg-emerald-50 group-hover:text-emerald-700 group-hover:border-emerald-200 transition-colors">
+              {badge}
+            </span>
+          )}
+        </div>
+
+        {/* Title */}
+        <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-3 tracking-tight group-hover:text-emerald-700 transition-colors">
+          {title}
+        </h3>
+
+        {/* Description */}
+        <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6">
+          {description}
+        </p>
       </div>
-      
-      {/* Title with slide animation */}
-      <h2 className={`
-        mb-4 text-2xl font-bold text-gray-800 transition-all duration-500
-        ${isVisible ? 'translate-x-0 opacity-100' : '-translate-x-10 opacity-0'}
-      `}>
-        {title}
-      </h2>
-      
-      {/* Description with fade animation */}
-      <p className={`
-        text-gray-600 leading-relaxed transition-all duration-500
-        ${isVisible ? 'opacity-100' : 'opacity-0'}
-      `}>
-        {description}
-      </p>
-      
-      {/* Animated underline on hover / click */}
-      <div className={`absolute bottom-0 h-1 bg-gradient-to-r from-emerald-500 to-green-500 transition-all duration-300 ${isActive ? 'left-0 w-full' : 'left-1/2 w-0 group-hover:left-0 group-hover:w-full'}`}></div>
-      
-      {/* Floating particles effect (optional) */}
-      <div className={`absolute -right-10 -top-10 h-32 w-32 rounded-full bg-gradient-to-br from-blue-400/20 to-purple-400/20 blur-2xl transition-all duration-700 ${isActive ? 'scale-150' : 'group-hover:scale-150'}`}></div>
-    </div>
+
+      {/* Action / Learn More link */}
+      <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-sm font-semibold text-slate-700 group-hover:text-emerald-600 transition-colors">
+        <span>Discover More</span>
+        <ArrowRight
+          size={16}
+          className="transition-transform duration-300 group-hover:translate-x-1.5"
+        />
+      </div>
+
+      {/* Bottom accent line on hover */}
+      <div
+        className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${color} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left`}
+      />
+    </article>
   );
 }

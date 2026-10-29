@@ -1,108 +1,115 @@
-import React, { useState } from 'react';
-import { FaGraduationCap, FaBookOpen, FaLightbulb, FaUsers, FaHandsHelping } from 'react-icons/fa';
-import playing from '../assets/playing2.jpg';
-import studying from '../assets/stdying.jpg';
-import playing2 from '../assets/playing.jpg';
+import { useState } from "react";
+import { GraduationCap, Users, BookOpen, HeartHandshake, Sparkles } from "lucide-react";
+import playing from "../assets/playing2.jpg";
+import studying from "../assets/stdying.jpg";
+import playing2 from "../assets/playing.jpg";
 
 export default function Mission() {
-  // States to track which item is tapped on mobile
   const [activeCard, setActiveCard] = useState(null);
-  const [activeImg, setActiveImg] = useState(null);
 
   const missions = [
     {
-      icon: <FaGraduationCap />,
-      text: "To provide accessible, quality education that prepares every student for college, career, and life."
+      icon: GraduationCap,
+      title: "World-Class Education",
+      text: "To provide accessible, high-caliber education that equips every student with knowledge, character, and practical competence for higher learning and life.",
     },
     {
-      icon: <FaUsers />,
-      text: "To create a safe, inclusive learning environment where all students feel valued and supported."
+      icon: Users,
+      title: "Inclusive & Safe Community",
+      text: "To foster an emotionally supportive, physically secure, and intellectually diverse environment where all students feel respected and empowered.",
     },
     {
-      icon: <FaBookOpen />,
-      text: "To develop critical thinking, creativity, and a lifelong love for learning in every student."
+      icon: BookOpen,
+      title: "Curiosity & Lifelong Learning",
+      text: "To ignite intellectual curiosity, critical problem solving, and an enduring passion for discovery through modern learning methodologies.",
     },
     {
-      icon: <FaHandsHelping />,
-      text: "To partner with families and the community to build a brighter future for our students."
-    }
+      icon: HeartHandshake,
+      title: "Community & Ethical Impact",
+      text: "To partner with parents, educational leaders, and community mentors to guide young individuals toward responsible, impactful societal contribution.",
+    },
   ];
 
   return (
-    <section className="bg-gradient-to-br from-gray-50 to-white py-16">
-      <div className="container mx-auto px-4 max-w-6xl">
-        <h2 className="text-3xl font-bold text-center mb-12">Our Mission</h2>
-        
-        <div className="flex flex-col lg:flex-row items-start gap-8">
+    <section className="py-20 sm:py-28 bg-white border-y border-slate-100" id="mission">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold uppercase tracking-wider border border-emerald-200 mb-3">
+            <Sparkles size={14} className="text-emerald-600" />
+            Purpose & Values
+          </span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 tracking-tight font-heading">
+            Our Guiding Mission
+          </h2>
+          <p className="mt-4 text-base sm:text-lg text-slate-600 leading-relaxed">
+            Building a brighter tomorrow by cultivating leadership, empathy, and intellectual rigor in every child who joins our campus.
+          </p>
+        </div>
+
+        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
           {/* Mission Grid */}
-          <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6">
-            {missions.map((mission, index) => (
-              <div 
-                key={index}
-                // Toggle active state on tap, reset on second tap
-                onClick={() => setActiveCard(activeCard === index ? null : index)}
-                // Clear state when mouse leaves (for desktop users)
-                onMouseLeave={() => setActiveCard(null)}
-                className={`
-                  bg-white p-8 rounded-2xl shadow-md transition-all duration-300 relative overflow-hidden group cursor-pointer
-                  ${activeCard === index ? 'shadow-xl -translate-y-2' : 'hover:shadow-xl hover:-translate-y-2'}
-                `}
-              >
-                {/* Top border gradient on hover / tap */}
-                <div className={`
-                  absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-600 to-green-400 transform transition-transform duration-300
-                  ${activeCard === index ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}
-                `}></div>
-                
-                <div className="text-4xl text-orange-600 mb-4">
-                  {mission.icon}
+          <div className="w-full lg:w-1/2 grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {missions.map((mission, index) => {
+              const Icon = mission.icon;
+              const isSelected = activeCard === index;
+
+              return (
+                <div
+                  key={mission.title}
+                  onClick={() => setActiveCard(isSelected ? null : index)}
+                  className={`p-6 sm:p-7 rounded-3xl transition-all duration-300 border cursor-pointer ${
+                    isSelected
+                      ? "bg-emerald-50/80 border-emerald-300 shadow-lg -translate-y-1"
+                      : "bg-slate-50 border-slate-200/80 hover:bg-white hover:border-slate-300 hover:shadow-md hover:-translate-y-1"
+                  }`}
+                >
+                  <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shadow-md shadow-emerald-600/20 mb-5">
+                    <Icon size={24} />
+                  </div>
+
+                  <h3 className="text-lg font-bold text-slate-900 mb-2">
+                    {mission.title}
+                  </h3>
+
+                  <p className="text-slate-600 text-sm leading-relaxed">
+                    {mission.text}
+                  </p>
                 </div>
-                <p className="text-gray-600 leading-relaxed">
-                  {mission.text}
-                </p>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
-          {/* Images Section */}
-          <div className="relative w-80 h-96 lg:w-96 lg:h-[450px] flex-shrink-0">
-            <div className="relative w-full h-full">
-              <img 
-                src={playing}
-                alt="Play"
-                onClick={() => setActiveImg(activeImg === 0 ? null : 0)}
-                onMouseLeave={() => setActiveImg(null)}
-                className={`
-                  absolute top-12 left-6 w-48 h-36 lg:w-64 lg:h-44 object-cover rounded-2xl transition-all duration-300 rotate-[-6deg] cursor-pointer
-                  ${activeImg === 0 ? 'scale-105 z-10 shadow-xl' : 'shadow-lg hover:scale-105 hover:z-10 hover:shadow-xl'}
-                `}
-              />
-              <img 
-                src={playing2}
-                alt="Study"
-                onClick={() => setActiveImg(activeImg === 1 ? null : 1)}
-                onMouseLeave={() => setActiveImg(null)}
-                className={`
-                  absolute top-12 left-40 w-48 h-36 lg:w-64 lg:h-44 object-cover rounded-2xl transition-all duration-300 rotate-[4deg] cursor-pointer
-                  ${activeImg === 1 ? 'scale-105 z-10 shadow-xl' : 'shadow-lg hover:scale-105 hover:z-10 hover:shadow-xl'}
-                `}
-              />
-              <img 
-                src={studying}
-                alt="Play 2"
-                onClick={() => setActiveImg(activeImg === 2 ? null : 2)}
-                onMouseLeave={() => setActiveImg(null)}
-                className={`
-                  absolute top-44 left-20 w-48 h-36 lg:w-64 lg:h-44 object-cover rounded-2xl transition-all duration-300 rotate-[-2deg] cursor-pointer
-                  ${activeImg === 2 ? 'scale-105 z-10 shadow-xl' : 'shadow-lg hover:scale-105 hover:z-10 hover:shadow-xl'}
-                `}
-              />
-              {/* Glow effect overlay */}
-              <div className="absolute inset-0 pointer-events-none bg-gradient-radial from-amber-100/20 to-transparent"></div>
+          {/* Collage Images */}
+          <div className="w-full lg:w-1/2 relative flex justify-center">
+            <div className="relative w-full max-w-md h-[360px] sm:h-[420px]">
+              <div className="absolute top-0 right-4 w-60 h-44 sm:w-72 sm:h-52 rounded-3xl overflow-hidden shadow-xl border-4 border-white transform rotate-3 hover:rotate-0 transition-all duration-300">
+                <img
+                  src={playing}
+                  alt="Student campus recreation"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              <div className="absolute top-16 left-0 w-60 h-44 sm:w-72 sm:h-52 rounded-3xl overflow-hidden shadow-2xl border-4 border-white transform -rotate-4 hover:rotate-0 transition-all duration-300">
+                <img
+                  src={studying}
+                  alt="Student focused study"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              <div className="absolute bottom-2 right-10 w-60 h-44 sm:w-72 sm:h-52 rounded-3xl overflow-hidden shadow-xl border-4 border-white transform rotate-1 hover:rotate-0 transition-all duration-300">
+                <img
+                  src={playing2}
+                  alt="Students collaborating"
+                  className="w-full h-full object-cover"
+                />
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
   );
-};
+}

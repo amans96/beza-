@@ -1,5 +1,5 @@
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Award,
   Plus,
@@ -47,10 +47,7 @@ export default function Achievers() {
   const [photo, setPhoto] = useState(null);
   const [photoPreview, setPhotoPreview] = useState("");
 
-  const loadAchievers = useCallback(async () => {
-    setLoading(true);
-    setError("");
-
+  async function loadAchievers() {
     try {
       const response = await api.get("/achievers");
       setAchievers(response.data || []);
@@ -59,11 +56,27 @@ export default function Achievers() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }
 
   useEffect(() => {
-    loadAchievers();
-  }, [loadAchievers]);
+    let active = true;
+
+    api
+      .get("/achievers")
+      .then((response) => {
+        if (active) setAchievers(response.data || []);
+      })
+      .catch((err) => {
+        if (active) setError(err.message || "Failed to load achievers.");
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   function resetForm() {
     setForm(emptyForm);

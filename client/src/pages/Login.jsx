@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import Logo from "../assets/logo.jpg";
 
 export default function Login() {
   const { login, user, loading } = useAuth();
@@ -62,22 +64,35 @@ export default function Login() {
       <div className="pointer-events-none absolute -bottom-48 -right-32 h-[28rem] w-[28rem] rounded-full bg-indigo-500/20 blur-3xl" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(59,130,246,0.12),transparent_55%)]" />
 
-      <section className="relative w-full max-w-md rounded-3xl border border-white/10 bg-white p-7 shadow-2xl shadow-black/30 sm:p-10">
-        {/* School branding */}
-        <div className="mb-10 flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600 text-2xl font-bold text-white shadow-lg shadow-blue-600/25">
-            B
-          </div>
+      <div className="relative w-full max-w-md">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white transition-colors mb-4 px-2"
+        >
+          <ArrowLeft size={15} />
+          <span>Return to Public Website</span>
+        </Link>
 
-          <div>
-            <p className="text-lg font-extrabold tracking-[0.12em] text-slate-900">
-              BEZA <span className="text-blue-600">SCHOOL</span>
-            </p>
-            <p className="text-xs font-medium tracking-wide text-slate-500">
-              LEARNING • GROWING • ACHIEVING
-            </p>
+        <section className="relative w-full rounded-3xl border border-white/10 bg-white p-7 shadow-2xl shadow-black/40 sm:p-10">
+          {/* School branding */}
+          <div className="mb-8 flex items-center gap-3.5">
+            <div className="h-12 w-12 rounded-2xl overflow-hidden ring-2 ring-emerald-500/30 flex-shrink-0 shadow-md">
+              <img
+                src={Logo}
+                alt="Beza School Logo"
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            <div>
+              <p className="text-lg font-extrabold tracking-[0.1em] text-slate-900 font-heading">
+                BEZA <span className="text-emerald-600">SCHOOL</span>
+              </p>
+              <p className="text-xs font-medium tracking-wide text-slate-500 uppercase">
+                Administrator Portal
+              </p>
+            </div>
           </div>
-        </div>
 
         {/* Heading */}
         <div className="mb-8">
@@ -190,6 +205,7 @@ export default function Login() {
           Secure administrator sign-in
         </div>
       </section>
+      </div>
 
       <footer className="absolute bottom-4 left-4 right-4 text-center text-xs text-slate-400">
         © {new Date().getFullYear()} Beza School. All rights reserved.

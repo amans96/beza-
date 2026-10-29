@@ -159,14 +159,20 @@ const ComingSoon = () => {
 
           {/* Call to Action Buttons */}
           <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center justify-center gap-4 border-t border-white/10 pt-10">
-            <button className="w-full sm:w-auto px-6 py-3 rounded-xl border border-white/20 text-white font-medium flex items-center justify-center gap-2 hover:bg-white/5 transition-colors">
+            <Link
+              to="/"
+              className="w-full sm:w-auto px-6 py-3 rounded-xl border border-white/20 text-white font-medium flex items-center justify-center gap-2 hover:bg-white/10 transition-colors"
+            >
               <Home size={18} />
-              Back to Home
-            </button>
-            <button className="w-full sm:w-auto px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-gray-300 font-medium flex items-center justify-center gap-2 hover:bg-white/10 hover:text-white transition-colors">
+              Return to Homepage
+            </Link>
+            <Link
+              to="/contact"
+              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-white/10 border border-white/10 text-emerald-400 font-medium flex items-center justify-center gap-2 hover:bg-white/15 transition-colors"
+            >
               <Mail size={18} />
-              Contact Admissions
-            </button>
+              Contact Admissions Desk
+            </Link>
           </motion.div>
         </div>
 

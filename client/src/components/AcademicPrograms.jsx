@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Baby, BookOpen, GraduationCap, School, ArrowRight } from "lucide-react";
 import academicProgramsData from "../data/academicProgramsData";
 

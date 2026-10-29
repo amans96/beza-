@@ -1,4 +1,3 @@
-import React from "react";
 import principal from "../assets/principal.jpg";
 
 export default function PrincipalMessage() {

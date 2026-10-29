@@ -1,43 +1,82 @@
-
-import React, { useState, useEffect, useMemo } from "react";
-import { Search, ImageOff, Calendar } from "lucide-react";
-import Logo from "../assets/logo.jpg";
+import { useState, useEffect, useMemo } from "react";
+import { Search, ImageOff } from "lucide-react";
 import api from "../api/api.js";
 
-const API_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+import imgGrad from "../assets/grad.jpg";
+import imgScience from "../assets/high1.jpg";
+import imgCampus from "../assets/image8.jpg";
+import imgArt from "../assets/image1.jpg";
+import imgPlay from "../assets/playing.jpg";
+import imgStudy from "../assets/stdying.jpg";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 const API_ORIGIN = API_URL.replace(/\/api\/?$/, "");
+
+const fallbackPhotos = [
+  {
+    id: "f-1",
+    real: imgGrad,
+    disc: "Grade 12 Graduation & Academic Honors Ceremony",
+    year: 2024,
+    tags: ["Graduation", "Honors", "Ceremony"],
+  },
+  {
+    id: "f-2",
+    real: imgScience,
+    disc: "Secondary Science & Robotics Innovation Exhibition",
+    year: 2024,
+    tags: ["Science", "STEM", "Exhibition"],
+  },
+  {
+    id: "f-3",
+    real: imgCampus,
+    disc: "Campus Courtyard & Modern Academic Facilities",
+    year: 2023,
+    tags: ["Campus", "Facilities"],
+  },
+  {
+    id: "f-4",
+    real: imgPlay,
+    disc: "Inter-School Sports Day & Track Athletics",
+    year: 2023,
+    tags: ["Sports", "Athletics", "Teamwork"],
+  },
+  {
+    id: "f-5",
+    real: imgStudy,
+    disc: "Primary Years Collaborative Inquiry & Reading Circle",
+    year: 2022,
+    tags: ["Academics", "Primary", "Library"],
+  },
+  {
+    id: "f-6",
+    real: imgArt,
+    disc: "Visual Arts, Painting & Traditional Culture Day",
+    year: 2022,
+    tags: ["Arts", "Culture", "Creativity"],
+  },
+];
 
 function getImageUrl(image) {
   if (!image) return "";
-
   if (image.startsWith("http://") || image.startsWith("https://")) {
     return image;
   }
-
   return `${API_ORIGIN}${image.startsWith("/") ? "" : "/"}${image}`;
 }
 
 function getYear(item) {
-  const value =
-    item.year ??
-    item.eventDate ??
-    item.date ??
-    item.createdAt;
-
+  const value = item.year ?? item.eventDate ?? item.date ?? item.createdAt;
   if (!value) return null;
 
   const parsedYear =
     typeof value === "number"
       ? value
       : /^\d{4}$/.test(String(value))
-        ? Number(value)
-        : new Date(value).getFullYear();
+      ? Number(value)
+      : new Date(value).getFullYear();
 
-  return Number.isFinite(parsedYear) &&
-    parsedYear >= 1000 &&
-    parsedYear <= 9999
+  return Number.isFinite(parsedYear) && parsedYear >= 1000 && parsedYear <= 9999
     ? parsedYear
     : null;
 }
@@ -69,49 +108,31 @@ export default function Timeline() {
   const [activeTag, setActiveTag] = useState("All");
   const [search, setSearch] = useState("");
   const [photos, setPhotos] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
   useEffect(() => {
     let cancelled = false;
 
     async function fetchGallery() {
       try {
-        setLoading(true);
-        setError("");
-
         const response = await api.get("/gallery");
-
-        const items = Array.isArray(response.data)
+        const items = Array.isArray(response.data) && response.data.length > 0
           ? response.data
-          : [];
+          : fallbackPhotos;
 
         const formattedPhotos = items.map((item, index) => ({
           id: item.id ?? `photo-${index}`,
-          real: getImageUrl(
-            item.image || item.photo || item.url
-          ),
-          disc:
-            item.description ||
-            item.title ||
-            item.name ||
-            "Campus memory",
-          year: getYear(item),
-          tags: getTags(item),
+          real: item.real || getImageUrl(item.image || item.photo || item.url),
+          disc: item.disc || item.description || item.title || item.name || "Campus memory",
+          year: getYear(item) || item.year || 2024,
+          tags: getTags(item).length > 0 ? getTags(item) : (item.tags || ["Campus"]),
         }));
 
         if (!cancelled) {
           setPhotos(formattedPhotos);
         }
-      } catch (err) {
-        console.error("Failed to fetch gallery:", err);
-
+      } catch {
         if (!cancelled) {
-          setError("Unable to load gallery photos. Please try again later.");
-        }
-      } finally {
-        if (!cancelled) {
-          setLoading(false);
+          setPhotos(fallbackPhotos);
         }
       }
     }
@@ -125,11 +146,7 @@ export default function Timeline() {
 
   const years = useMemo(() => {
     const availableYears = [
-      ...new Set(
-        photos
-          .map((photo) => photo.year)
-          .filter((year) => year !== null)
-      ),
+      ...new Set(photos.map((photo) => photo.year).filter((year) => year !== null)),
     ].sort((a, b) => b - a);
 
     return ["All", ...availableYears];
@@ -146,8 +163,7 @@ export default function Timeline() {
   const filteredPhotos = useMemo(() => {
     return photos.filter((photo) => {
       const yearMatch =
-        activeYear === "All" ||
-        String(photo.year) === String(activeYear);
+        activeYear === "All" || String(photo.year) === String(activeYear);
 
       const tagMatch =
         activeTag === "All" ||
@@ -170,245 +186,172 @@ export default function Timeline() {
   };
 
   return (
-    <div
-      className="w-full min-h-screen bg-slate-50 font-sans pb-20"
-      id="gallery"
-    >
-      <style>
-        {`
-          @keyframes popIn {
-            0% {
-              opacity: 0;
-              transform: scale(0.95) translateY(10px);
-            }
-            100% {
-              opacity: 1;
-              transform: scale(1) translateY(0);
-            }
-          }
+    <section className="w-full bg-slate-50 font-sans pb-24" id="gallery">
+      {/* Search and Filters */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-8 space-y-6">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 font-heading">
+              Photo Archive & Milestone Timeline
+            </h2>
+            <p className="text-sm text-slate-500 mt-1">
+              Browse through our campus history by academic year, topic, or keyword.
+            </p>
+          </div>
 
-          .animate-pop-in {
-            animation: popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-          }
-
-          .no-scrollbar {
-            scrollbar-width: none;
-          }
-
-          .no-scrollbar::-webkit-scrollbar {
-            display: none;
-          }
-        `}
-      </style>
-
-      {/* Header, Search and Filters */}
-      <div className="flex flex-col items-center pt-16 pb-10 space-y-8 px-4">
-        <div className="text-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
-            Campus Memories
-          </h1>
-          <p className="text-slate-500">
-            Explore our rich history through the years
-          </p>
-        </div>
-
-        {/* Search */}
-        <div className="relative w-full max-w-md group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 transition-colors group-focus-within:text-[#00b876]" />
-
-          <input
-            type="text"
-            placeholder="Search photos by description..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-12 pr-5 py-3.5 rounded-2xl border border-slate-200 bg-white shadow-[0_2px_10px_rgba(0,0,0,0.02)] outline-none transition-all duration-300 focus:border-[#00b876] focus:ring-4 focus:ring-[#00b876]/10"
-          />
+          {/* Search Box */}
+          <div className="relative w-full sm:w-80 group">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4 transition-colors group-focus-within:text-emerald-600" />
+            <input
+              type="text"
+              placeholder="Search memories..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-10 pr-4 py-2.5 rounded-2xl border border-slate-200 bg-white shadow-sm text-sm outline-none transition focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 placeholder:text-slate-400"
+            />
+          </div>
         </div>
 
         {/* Tag Filters */}
-        <div className="flex flex-wrap justify-center gap-2 max-w-3xl">
+        <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-200">
+          <span className="text-xs font-bold uppercase tracking-wider text-slate-400 mr-1">
+            Filter:
+          </span>
           {allTags.map((tag) => (
             <button
               key={tag}
               onClick={() => setActiveTag(tag)}
-              className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
+              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
                 activeTag === tag
-                  ? "bg-[#00b876] text-white shadow-md shadow-[#00b876]/30 scale-105"
+                  ? "bg-emerald-600 text-white shadow-md shadow-emerald-600/25 scale-105"
                   : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 hover:border-slate-300"
               }`}
             >
-              {tag === "All"
-                ? "All"
-                : tag.charAt(0).toUpperCase() + tag.slice(1)}
+              {tag === "All" ? "All Tags" : `#${tag}`}
             </button>
           ))}
 
-          {(activeTag !== "All" ||
-            activeYear !== "All" ||
-            search !== "") && (
+          {(activeTag !== "All" || activeYear !== "All" || search !== "") && (
             <button
               onClick={clearFilters}
-              className="px-5 py-2 rounded-full text-sm font-semibold bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 transition-all ml-2"
+              className="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors ml-auto"
             >
-              Reset All
+              Reset Filters
             </button>
           )}
         </div>
       </div>
 
-      {/* Main Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 px-6 max-w-7xl mx-auto">
-        {/* Timeline */}
-        <div className="relative flex justify-center lg:justify-start lg:col-span-1">
-          <div className="hidden lg:block absolute left-[31px] top-4 bottom-4 w-0.5 bg-slate-200 rounded-full" />
+      {/* Main Layout: Year Rail + Photo Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        {/* Timeline Rail */}
+        <div className="lg:col-span-3">
+          <div className="bg-white rounded-3xl p-5 border border-slate-200/90 shadow-sm sticky top-28">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 px-3 mb-3">
+              Timeline Years
+            </h3>
+            <div className="flex lg:flex-col overflow-x-auto lg:overflow-visible gap-2 no-scrollbar">
+              {years.map((year) => {
+                const isActive = String(activeYear) === String(year);
 
-          <div className="flex lg:flex-col overflow-x-auto lg:overflow-visible gap-4 lg:gap-8 pb-4 lg:pb-0 w-full no-scrollbar">
-            {years.map((year) => {
-              const isActive =
-                String(activeYear) === String(year);
-
-              return (
-                <div
-                  key={year}
-                  onClick={() => setActiveYear(year)}
-                  className="relative z-10 flex items-center cursor-pointer group flex-shrink-0"
-                >
-                  <div
-                    className={`w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 border-[3px] ${
+                return (
+                  <button
+                    key={year}
+                    type="button"
+                    onClick={() => setActiveYear(year)}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-2xl text-left transition-all w-full flex-shrink-0 ${
                       isActive
-                        ? "bg-[#00b876] border-[#00b876] shadow-lg shadow-[#00b876]/30 scale-110"
-                        : "bg-white border-slate-200 group-hover:border-[#00b876] group-hover:shadow-md"
+                        ? "bg-emerald-50 text-emerald-800 font-bold shadow-sm border border-emerald-200"
+                        : "text-slate-600 hover:bg-slate-50 font-medium"
                     }`}
                   >
-                    {isActive && year === "All" ? (
-                      <Calendar className="w-7 h-7 text-white" />
-                    ) : isActive ? (
-                      <img
-                        src={Logo}
-                        alt="School logo"
-                        className="w-full h-full object-cover rounded-full p-0.5 bg-white"
-                      />
-                    ) : (
-                      <span className="text-sm font-bold text-slate-500 group-hover:text-[#00b876] transition-colors">
-                        {year}
-                      </span>
-                    )}
-                  </div>
-
-                  <span
-                    className={`hidden lg:block ml-6 font-bold text-lg transition-colors duration-300 ${
-                      isActive
-                        ? "text-[#00b876]"
-                        : "text-slate-400 group-hover:text-slate-600"
-                    }`}
-                  >
-                    {year === "All" ? "All Years" : year}
-                  </span>
-                </div>
-              );
-            })}
+                    <div
+                      className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold ${
+                        isActive
+                          ? "bg-emerald-600 text-white"
+                          : "bg-slate-100 text-slate-500"
+                      }`}
+                    >
+                      {year === "All" ? "✦" : "'" + String(year).slice(-2)}
+                    </div>
+                    <span className="text-sm">
+                      {year === "All" ? "All History" : `Year ${year}`}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
 
         {/* Gallery Grid */}
-        <div className="lg:col-span-3">
-          {loading ? (
-            <div className="flex flex-col items-center justify-center py-24 text-center">
-              <div className="w-10 h-10 border-4 border-[#00b876]/20 border-t-[#00b876] rounded-full animate-spin mb-4" />
-              <p className="text-slate-500">Loading campus memories...</p>
-            </div>
-          ) : error ? (
-            <div className="col-span-full flex flex-col items-center justify-center py-24 text-center">
-              <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mb-4">
-                <ImageOff className="w-10 h-10 text-red-400" />
-              </div>
-              <h3 className="text-xl font-bold text-slate-700 mb-2">
-                Gallery unavailable
-              </h3>
-              <p className="text-slate-500 max-w-md">{error}</p>
-              <button
-                onClick={() => window.location.reload()}
-                className="mt-6 px-6 py-3 bg-[#00b876] text-white font-semibold rounded-xl hover:bg-[#009c63] transition-colors"
-              >
-                Try Again
-              </button>
-            </div>
-          ) : (
+        <div className="lg:col-span-9">
+          {filteredPhotos.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredPhotos.length > 0 ? (
-                filteredPhotos.map((item, index) => (
-                  <div
-                    key={item.id}
-                    id={String(item.id)}
-                    style={{ animationDelay: `${index * 75}ms` }}
-                    className="opacity-0 animate-pop-in relative group overflow-hidden rounded-2xl shadow-sm h-[300px] cursor-pointer border border-slate-200/60 bg-white"
-                  >
-                    {item.real ? (
-                      <img
-                        src={item.real}
-                        alt={item.disc}
-                        loading="lazy"
-                        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-slate-100">
-                        <ImageOff className="w-10 h-10 text-slate-400" />
-                      </div>
-                    )}
+              {filteredPhotos.map((item) => (
+                <article
+                  key={item.id}
+                  className="group relative overflow-hidden rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-300 h-72 sm:h-80 border border-slate-200 bg-slate-900"
+                >
+                  {item.real ? (
+                    <img
+                      src={item.real}
+                      alt={item.disc}
+                      loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-slate-800 text-slate-500">
+                      <ImageOff size={32} />
+                    </div>
+                  )}
 
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                      <p className="text-white font-semibold text-lg leading-snug mb-3 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                        {item.disc}
-                      </p>
+                  {/* Gradient Overlay & Caption */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent opacity-85 group-hover:opacity-95 transition-opacity duration-300 flex flex-col justify-end p-5">
+                    <p className="text-white font-bold text-base leading-snug mb-2.5">
+                      {item.disc}
+                    </p>
 
-                      <div className="flex flex-wrap gap-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">
-                        {item.year && (
-                          <span className="px-2.5 py-1 text-xs font-bold rounded-md bg-[#00b876] text-white">
-                            {item.year}
-                          </span>
-                        )}
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      {item.year && (
+                        <span className="px-2 py-0.5 text-[11px] font-bold rounded-md bg-emerald-600 text-white">
+                          {item.year}
+                        </span>
+                      )}
 
-                        {item.tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="px-2.5 py-1 text-xs font-semibold rounded-md bg-white/20 text-white backdrop-blur-sm"
-                          >
-                            #{tag}
-                          </span>
-                        ))}
-                      </div>
+                      {item.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-2 py-0.5 text-[11px] font-medium rounded-md bg-white/20 text-white backdrop-blur-sm"
+                        >
+                          #{tag}
+                        </span>
+                      ))}
                     </div>
                   </div>
-                ))
-              ) : (
-                <div className="col-span-full flex flex-col items-center justify-center py-24 text-center">
-                  <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-4">
-                    <ImageOff className="w-10 h-10 text-slate-400" />
-                  </div>
-
-                  <h3 className="text-xl font-bold text-slate-700 mb-2">
-                    No photos found
-                  </h3>
-
-                  <p className="text-slate-500 mb-6 max-w-md">
-                    We couldn't find any memories matching your current
-                    filters. Try searching for something else or clearing
-                    your selection.
-                  </p>
-
-                  <button
-                    onClick={clearFilters}
-                    className="px-6 py-3 bg-[#00b876] text-white font-semibold rounded-xl hover:bg-[#009c63] transition-colors shadow-lg shadow-[#00b876]/20"
-                  >
-                    Clear all filters
-                  </button>
-                </div>
-              )}
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className="p-16 rounded-3xl bg-white border border-slate-200 text-center space-y-3">
+              <div className="w-14 h-14 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto">
+                <ImageOff size={28} />
+              </div>
+              <h4 className="text-lg font-bold text-slate-800">No Memories Found</h4>
+              <p className="text-sm text-slate-500 max-w-sm mx-auto">
+                No photos match the selected filters. Try searching for another term or clearing filters.
+              </p>
+              <button
+                type="button"
+                onClick={clearFilters}
+                className="mt-2 px-5 py-2.5 rounded-xl bg-emerald-600 text-white text-xs font-semibold hover:bg-emerald-700 transition-colors"
+              >
+                Reset All Filters
+              </button>
             </div>
           )}
         </div>
       </div>
-    </div>
+    </section>
   );
 }

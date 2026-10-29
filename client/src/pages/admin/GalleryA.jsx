@@ -1,5 +1,4 @@
-
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Plus,
   Search,
@@ -51,10 +50,7 @@ export default function GalleryA() {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
 
-  const loadGallery = useCallback(async () => {
-    setLoading(true);
-    setError("");
-
+  async function loadGallery() {
     try {
       const response = await api.get("/gallery");
       setItems(response.data || []);
@@ -63,11 +59,27 @@ export default function GalleryA() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }
 
   useEffect(() => {
-    loadGallery();
-  }, [loadGallery]);
+    let active = true;
+
+    api
+      .get("/gallery")
+      .then((response) => {
+        if (active) setItems(response.data || []);
+      })
+      .catch((err) => {
+        if (active) setError(err.message || "Failed to load gallery items.");
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   function resetForm() {
     setForm(emptyForm);

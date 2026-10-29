@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { CheckCircle, ArrowRight } from 'lucide-react';
 // Make sure this import path matches exactly where your data file is!
 import { admissionStepsData } from '../data/admissionStepsData.js';

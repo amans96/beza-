@@ -1,141 +1,149 @@
-import React from 'react';
-import { Play, Info, ShoppingBag } from 'lucide-react';
-import herovideo from '../assets/hero.mp4';
-import heroimg from '../assets/hero.jpg';
-const HeroPage = () => {
+import { Info, GraduationCap, ArrowRight, ShieldCheck, Sparkles, BookOpen } from "lucide-react";
+import { Link } from "react-router-dom";
+import herovideo from "../assets/hero.mp4";
+import heroimg from "../assets/hero.jpg";
+
+export default function HeroPage() {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gray-900">
-      {/* Blurred Video Background */}
+    <section className="relative min-h-[90vh] md:min-h-screen flex items-center overflow-hidden bg-slate-950">
+      {/* Background Video with Rich Overlay */}
       <div className="absolute inset-0 z-0">
         <video
           autoPlay
           loop
           muted
           playsInline
-          className="h-full w-full object-cover"
-        
+          className="h-full w-full object-cover scale-105"
         >
-          <source
-            src={herovideo}
-            type="video/mp4"
-          />
-          Your browser does not support the video tag.
+          <source src={herovideo} type="video/mp4" />
         </video>
-        {/* Overlay for better text readability and blur effect */}
-        <div className="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+        {/* Layered Gradient & Blur Backdrop for maximum contrast and legibility */}
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/80 to-slate-950/65 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(16,185,129,0.15),transparent_60%)]" />
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 py-20 lg:flex-row lg:justify-between lg:px-20">
-        
-        {/* Left Side - Text Content */}
-        <div className="max-w-2xl text-center lg:text-left animate-fade-in-up">
-          <h1 className="mb-6 text-5xl font-extrabold tracking-tight text-white drop-shadow-lg md:text-7xl">
-            Shape Your Future <br />
-            <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-              With Modern Education
-            </span>
-          </h1>
-          
-          <p className="mb-10 text-xl text-gray-200 drop-shadow-md">
-            Join thousands of learners worldwide and unlock your potential with industry-ready courses.
-          </p>
-
-          {/* Three Buttons */}
-          <div className="flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0 justify-center lg:justify-start">
-            <button className="group relative flex items-center justify-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-blue-600 to-blue-700 px-8 py-3 text-lg font-semibold text-white shadow-lg transition-all hover:scale-105 hover:shadow-blue-500/25 focus:outline-none focus:ring-2 focus:ring-blue-400">
-              <Play size={20} className="transition-transform group-hover:scale-110" />
-              Get Started
-            </button>
-            
-            <button className="flex items-center justify-center gap-2 rounded-full border-2 border-white/80 bg-white/10 px-8 py-3 text-lg font-semibold text-white backdrop-blur-sm transition-all hover:bg-white/20 hover:scale-105">
-              <Info size={20} />
-              Learn More
-            </button>
-            
-            <button className="flex items-center justify-center gap-2 rounded-full bg-[#e78c16] px-8 py-3 text-lg font-semibold text-white shadow-lg transition-all hover:bg-purple-700 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400">
-              <ShoppingBag size={20} />
-              View Courses
-            </button>
-          </div>
-        </div>
-
-        {/* Right Side - Floating Image with Animation */}
-        <div className="mt-12 lg:mt-0 animate-float">
-          <div className="relative">
-            {/* Decorative glow behind image */}
-            <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-600/20 blur-2xl"></div>
-            
-            <img
-              src={heroimg}
-              alt="Students learning together"
-              className="relative h-auto w-full max-w-md rounded-2xl object-cover shadow-2xl ring-4 ring-white/20 lg:max-w-lg"
-            />
-            
-            {/* Floating education badge */}
-            <div className="absolute -top-6 -right-6 rounded-full bg-white/90 px-4 py-2 shadow-lg backdrop-blur-sm animate-float-slow">
-              <span className="text-sm font-bold text-gray-800">🎓 10k+ Students</span>
+      <div className="relative z-10 max-w-7xl mx-auto w-full px-6 py-16 sm:py-24 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          {/* Left Column: Text Content */}
+          <div className="lg:col-span-7 text-center lg:text-left space-y-6">
+            {/* Pill Tag */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs sm:text-sm font-semibold tracking-wide shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              Admissions Open for 2026/2027 Academic Year
             </div>
-            
-            {/* Another floating element */}
-            <div className="absolute -bottom-4 -left-6 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 px-4 py-2 shadow-lg">
-              <span className="text-sm font-bold text-white">✨ Expert Instructors</span>
+
+            {/* Main Headline */}
+            <h1 className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-extrabold tracking-tight text-white leading-[1.1] font-heading">
+              Shape Your Future <br />
+              <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
+                With Modern Education
+              </span>
+            </h1>
+
+            {/* Subheading */}
+            <p className="max-w-xl mx-auto lg:mx-0 text-base sm:text-lg md:text-xl text-slate-300 leading-relaxed font-normal">
+              Empowering students from Early Years through Secondary education with world-class curriculum, passionate educators, and vibrant campus life.
+            </p>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 pt-2">
+              <Link
+                to="/admissions"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-base font-bold shadow-xl shadow-emerald-500/25 transition-all duration-200 hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-emerald-400/40"
+              >
+                <span>Apply for Admission</span>
+                <ArrowRight size={18} />
+              </Link>
+
+              <Link
+                to="/about"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-2xl border border-white/20 hover:border-white/40 bg-white/10 hover:bg-white/15 text-white text-base font-semibold backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5"
+              >
+                <Info size={18} className="text-slate-300" />
+                <span>Explore Campus</span>
+              </Link>
+
+              <Link
+                to="/student"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl text-slate-300 hover:text-white hover:bg-white/5 text-base font-medium transition-colors"
+              >
+                <BookOpen size={18} className="text-emerald-400" />
+                <span>Student Life</span>
+              </Link>
+            </div>
+
+            {/* Key Trust Stats */}
+            <div className="pt-6 border-t border-white/10 grid grid-cols-3 gap-4 max-w-lg mx-auto lg:mx-0">
+              <div>
+                <p className="text-2xl sm:text-3xl font-extrabold text-white">23+</p>
+                <p className="text-xs text-slate-400 font-medium">Years of Legacy</p>
+              </div>
+              <div>
+                <p className="text-2xl sm:text-3xl font-extrabold text-white">100%</p>
+                <p className="text-xs text-slate-400 font-medium">Exam Pass Rate</p>
+              </div>
+              <div>
+                <p className="text-2xl sm:text-3xl font-extrabold text-white">1:15</p>
+                <p className="text-xs text-slate-400 font-medium">Teacher-Student Ratio</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Visual Showcase */}
+          <div className="lg:col-span-5 flex justify-center lg:justify-end">
+            <div className="relative max-w-md w-full">
+              {/* Ambient Glow */}
+              <div className="absolute -inset-4 rounded-3xl bg-gradient-to-tr from-emerald-500/20 via-teal-500/20 to-blue-500/20 blur-2xl pointer-events-none" />
+
+              {/* Main Image Card */}
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl ring-1 ring-white/15 bg-slate-900">
+                <img
+                  src={heroimg}
+                  alt="Beza School Students in classroom"
+                  className="w-full h-auto object-cover aspect-[4/3] sm:aspect-[1/1] hover:scale-105 transition-transform duration-700 ease-out"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute bottom-4 left-4 right-4 p-4 rounded-2xl bg-slate-950/70 backdrop-blur-md border border-white/10 text-white">
+                  <p className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <Sparkles size={16} className="text-emerald-400" />
+                    Inspiring Tomorrow's Leaders
+                  </p>
+                  <p className="text-xs text-slate-300 mt-0.5">
+                    Holistic learning environment with state-of-the-art labs & arts facilities.
+                  </p>
+                </div>
+              </div>
+
+              {/* Floating Badge 1 */}
+              <div className="absolute -top-4 -right-4 sm:-right-6 rounded-2xl bg-white/95 backdrop-blur-md px-4 py-3 shadow-xl border border-white/40 animate-float-slow">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
+                    <GraduationCap size={18} />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-slate-900">Accredited</p>
+                    <p className="text-[10px] text-slate-500">Excellence Standards</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Floating Badge 2 */}
+              <div className="absolute -bottom-4 -left-4 sm:-left-6 rounded-2xl bg-slate-900/95 backdrop-blur-md px-4 py-3 shadow-xl border border-white/15 text-white">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold">
+                    <ShieldCheck size={18} />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-white">Safe & Inspiring</p>
+                    <p className="text-[10px] text-slate-400">Addis / Bishoftu Campus</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 animate-bounce">
-        <div className="h-10 w-6 rounded-full border-2 border-white/50">
-          <div className="mx-auto mt-2 h-2 w-2 animate-ping rounded-full bg-white"></div>
-        </div>
-      </div>
-
-      <style jsx>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        @keyframes float {
-          0%, 100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-20px);
-          }
-        }
-        
-        @keyframes floatSlow {
-          0%, 100% {
-            transform: translateY(0px) rotate(0deg);
-          }
-          50% {
-            transform: translateY(-10px) rotate(2deg);
-          }
-        }
-        
-        .animate-fade-in-up {
-          animation: fadeInUp 0.8s ease-out forwards;
-        }
-        
-        .animate-float {
-          animation: float 3s ease-in-out infinite;
-        }
-        
-        .animate-float-slow {
-          animation: floatSlow 4s ease-in-out infinite;
-        }
-      `}</style>
-    </div>
+    </section>
   );
-};
-
-export default HeroPage;
+}
